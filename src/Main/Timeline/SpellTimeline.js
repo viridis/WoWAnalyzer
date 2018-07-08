@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import ReactTooltip from 'react-tooltip';
+import { Trans, withI18n } from '@lingui/react';
 import 'gemini-scrollbar/gemini-scrollbar.css';
 
 import { formatDuration } from 'common/format';
@@ -27,6 +28,7 @@ class SpellTimeline extends React.PureComponent {
     showCooldowns: PropTypes.bool,
     showGlobalCooldownDuration: PropTypes.bool,
     buffEvents: PropTypes.object,
+    i18n: PropTypes.object.isRequired,
   };
   static defaultProps = {
     showCooldowns: false,
@@ -71,7 +73,7 @@ class SpellTimeline extends React.PureComponent {
 
     return spellIds
       .map(spellId => Number(spellId))
-      .filter(key => key > 0) //filter out fake spells (spell id <= 0)
+      .filter(key => key > 0) // spell ids below 0 are fake (e.g. autoattack, fabricated events)
       .sort((a, b) => {
         const aSortIndex = abilities.getTimelineSortIndex(a);
         const bSortIndex = abilities.getTimelineSortIndex(b);
@@ -81,12 +83,12 @@ class SpellTimeline extends React.PureComponent {
         const bCasts = abilityTracker.getAbility(b).casts;
         return aIndex - bIndex || bCasts - aCasts;
       });
-
   }
 
   gemini = null;
   render() {
-    const { start, end, historyBySpellId, globalCooldownHistory, channelHistory, deaths, resurrections, showCooldowns, showGlobalCooldownDuration, abilities, buffEvents, ...others } = this.props;
+    const { start, end, historyBySpellId, globalCooldownHistory, channelHistory, deaths, resurrections, showCooldowns, showGlobalCooldownDuration, abilities, buffEvents, i18n, ...others } = this.props;
+    delete others.i18nHash;
     delete others.abilityTracker;
     const duration = end - start;
     const seconds = Math.ceil(duration / 1000);
@@ -115,21 +117,22 @@ class SpellTimeline extends React.PureComponent {
           </div>
           {showGlobalCooldownDuration && globalCooldownHistory && (
             <div className="lane">
-              GCD
+              <Trans>Global Cooldown</Trans>
             </div>
           )}
           {channelHistory && (
             <div className="lane">
-              Channeling
+              <Trans>Channeling</Trans>
             </div>
           )}
-          {this.spells.map(spellId => (
-            <div className="lane" key={spellId}>
-              <SpellLink id={spellId}>
-                {abilities.getAbility(spellId).name}
-              </SpellLink>
-            </div>
-          ))}
+          {this.spells.map(spellId => {
+            const primarySpellId = abilities.getAbility(spellId).primarySpell.id;
+            return (
+              <div className="lane" key={primarySpellId}>
+                <SpellLink id={primarySpellId} />
+              </div>
+            );
+          })}
         </div>
         <GeminiScrollbar
           className="timeline flex-main"
@@ -167,7 +170,7 @@ class SpellTimeline extends React.PureComponent {
                       left,
                       width: Math.min(maxWidth, event.duration / 1000 * secondWidth),
                     }}
-                    data-tip={`${formatDuration(fightDuration, 3)}: ${(event.duration / 1000).toFixed(1)}s Global Cooldown by ${event.ability.name}`}
+                    data-tip={i18n.t`${formatDuration(fightDuration, 3)}: ${(event.duration / 1000).toFixed(1)}s Global Cooldown by ${i18n._(`spell.${event.ability.guid}`)}`}
                   />
                 );
               })}
@@ -218,4 +221,4 @@ class SpellTimeline extends React.PureComponent {
   }
 }
 
-export default SpellTimeline;
+export default withI18n()(SpellTimeline);
