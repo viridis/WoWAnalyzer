@@ -39,7 +39,6 @@ import DRUID from './DRUID';
 import HUNTER from './HUNTER';
 import MAGE from './MAGE';
 import MONK from './MONK';
-import PALADIN from './PALADIN';
 import PRIEST from './PRIEST';
 import ROGUE from './ROGUE';
 import SHAMAN from './SHAMAN';
@@ -73,7 +72,6 @@ const ABILITIES = {
     HUNTER,
     MAGE,
     MONK,
-    PALADIN,
     PRIEST,
     ROGUE,
     SHAMAN,
