@@ -1,5 +1,5 @@
 import React from 'react';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import Analyzer from 'Parser/Core/Analyzer';
 import AbilityTracker from 'Parser/Core/Modules/AbilityTracker';
@@ -19,7 +19,7 @@ class RighteousProtector extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.RIGHTEOUS_PROTECTOR_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.RIGHTEOUS_PROTECTOR_TALENT);
   }
 
   lightOfTheProtectorReduced = 0;
@@ -28,13 +28,13 @@ class RighteousProtector extends Analyzer {
   avengingWrathReductionWasted = 0;
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.SHIELD_OF_THE_RIGHTEOUS.id) {
+    if (spellId !== SPELLS.SHIELD_OF_THE_RIGHTEOUS) {
       return;
     }
 
-    let LOTP_ID = SPELLS.LIGHT_OF_THE_PROTECTOR.id;
-    if (this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT.id)) {
-      LOTP_ID = SPELLS.HAND_OF_THE_PROTECTOR_TALENT.id;
+    let LOTP_ID = SPELLS.LIGHT_OF_THE_PROTECTOR;
+    if (this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT)) {
+      LOTP_ID = SPELLS.HAND_OF_THE_PROTECTOR_TALENT;
     }
 
     if (this.spellUsable.isOnCooldown(LOTP_ID)) {
@@ -44,8 +44,8 @@ class RighteousProtector extends Analyzer {
     } else {
       this.lightOfTheProtectorReductionWasted += REDUCTION_TIME;
     }
-    if (this.spellUsable.isOnCooldown(SPELLS.AVENGING_WRATH.id)) {
-      const reduction = this.spellUsable.reduceCooldown(SPELLS.AVENGING_WRATH.id, REDUCTION_TIME);
+    if (this.spellUsable.isOnCooldown(SPELLS.AVENGING_WRATH)) {
+      const reduction = this.spellUsable.reduceCooldown(SPELLS.AVENGING_WRATH, REDUCTION_TIME);
       this.avengingWrathReduced += reduction;
       this.avengingWrathReductionWasted += REDUCTION_TIME - reduction;
     } else {
@@ -54,10 +54,10 @@ class RighteousProtector extends Analyzer {
   }
 
   statistic() {
-    const lotpName = this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT.id) ? 'Hand of the Protector' : 'Light of the Protector';
+    const lotpName = this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT) ? 'Hand of the Protector' : 'Light of the Protector';
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.RIGHTEOUS_PROTECTOR_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.RIGHTEOUS_PROTECTOR_TALENT} />}
         value={`${ this.avengingWrathReduced / 1000 } sec`}
         label="cooldown reduction"
         tooltip={`

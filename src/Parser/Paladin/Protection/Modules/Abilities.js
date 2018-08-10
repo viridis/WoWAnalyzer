@@ -1,12 +1,10 @@
 //import React from 'react';
 
-import SPELLS from 'common/SPELLS';
 import ITEMS from 'common/ITEMS';
 import ISSUE_IMPORTANCE from 'Parser/Core/ISSUE_IMPORTANCE';
-
 import CoreAbilities from 'Parser/Core/Modules/Abilities';
 
-//import SpellLink from 'common/SpellLink';
+import SPELLS from '../SPELLS';
 
 class Abilities extends CoreAbilities {
   spellbook() {
@@ -14,7 +12,7 @@ class Abilities extends CoreAbilities {
     return [
       {
         spell: SPELLS.CONSECRATION_CAST,
-        buffSpellId: SPELLS.CONSECRATION_BUFF.id,
+        buffSpellId: SPELLS.CONSECRATION_BUFF,
         category: Abilities.SPELL_CATEGORIES.ROTATIONAL,
         cooldown: haste => 4.5 / (1 + haste),
         gcd: {
@@ -29,7 +27,7 @@ class Abilities extends CoreAbilities {
           base: 1500,
         },
         charges: 3,
-        enabled: combatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT),
         castEfficiency: {
           suggestion: true,
           recommendedEfficiency: 0.9,
@@ -52,7 +50,7 @@ class Abilities extends CoreAbilities {
       //And a main source of damage, it should be tracked somewhat. Keeping it at 80% for now.
       {
         spell: SPELLS.SHIELD_OF_THE_RIGHTEOUS,
-        buffSpellId: SPELLS.SHIELD_OF_THE_RIGHTEOUS_BUFF.id,
+        buffSpellId: SPELLS.SHIELD_OF_THE_RIGHTEOUS_BUFF,
         isDefensive: true,
         category: Abilities.SPELL_CATEGORIES.ROTATIONAL,
         cooldown: haste => 20 / (1 + haste),
@@ -70,7 +68,7 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: !combatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT.id),
+        enabled: !combatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT),
         castEfficiency: {
           suggestion: true,
         },
@@ -79,7 +77,7 @@ class Abilities extends CoreAbilities {
         spell: SPELLS.JUDGMENT_CAST_PROTECTION,
         category: Abilities.SPELL_CATEGORIES.ROTATIONAL,
         cooldown: haste => 12 / (1 + haste),
-        charges: combatant.hasTalent(SPELLS.CRUSADERS_JUDGMENT_TALENT.id) ? 2 : 1,
+        charges: combatant.hasTalent(SPELLS.CRUSADERS_JUDGMENT_TALENT) ? 2 : 1,
         gcd: {
           base: 1500,
         },
@@ -95,7 +93,7 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: !combatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT.id),
+        enabled: !combatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT),
         castEfficiency: {
           suggestion: true,
           recommendedEfficiency: 0.6,
@@ -110,7 +108,7 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: combatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT),
         castEfficiency: {
           suggestion: true,
           recommendedEfficiency: 0.6,
@@ -120,16 +118,16 @@ class Abilities extends CoreAbilities {
       //COOLDOWNS
       {
         spell: SPELLS.ARDENT_DEFENDER,
-        buffSpellId: SPELLS.ARDENT_DEFENDER.id,
+        buffSpellId: SPELLS.ARDENT_DEFENDER,
         category: Abilities.SPELL_CATEGORIES.DEFENSIVE,
-        cooldown: 120 * (combatant.hasTalent(SPELLS.UNBREAKABLE_SPIRIT_TALENT.id) ? 0.7 : 1),
+        cooldown: 120 * (combatant.hasTalent(SPELLS.UNBREAKABLE_SPIRIT_TALENT) ? 0.7 : 1),
         castEfficiency: {
           suggestion: true,
         },
       },
       {
         spell: SPELLS.GUARDIAN_OF_ANCIENT_KINGS,
-        buffSpellId: SPELLS.GUARDIAN_OF_ANCIENT_KINGS.id,
+        buffSpellId: SPELLS.GUARDIAN_OF_ANCIENT_KINGS,
         category: Abilities.SPELL_CATEGORIES.DEFENSIVE,
         cooldown: 300,
         castEfficiency: {
@@ -138,20 +136,20 @@ class Abilities extends CoreAbilities {
       },
       {
         spell: SPELLS.SERAPHIM_TALENT,
-        buffSpellId: SPELLS.SERAPHIM_TALENT.id,
+        buffSpellId: SPELLS.SERAPHIM_TALENT,
         category: Abilities.SPELL_CATEGORIES.SEMI_DEFENSIVE,
         cooldown: 45,
         gcd: {
           base: 1500,
         },
-        enabled: combatant.hasTalent(SPELLS.SERAPHIM_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.SERAPHIM_TALENT),
         castEfficiency: {
           suggestion: true,
         },
       },
       {
         spell: SPELLS.AVENGING_WRATH,
-        buffSpellId: SPELLS.AVENGING_WRATH.id,
+        buffSpellId: SPELLS.AVENGING_WRATH,
         category: Abilities.SPELL_CATEGORIES.SEMI_DEFENSIVE,
         gcd: {
           base: 1500,
@@ -183,7 +181,7 @@ class Abilities extends CoreAbilities {
         spell: SPELLS.DIVINE_STEED,
         category: Abilities.SPELL_CATEGORIES.UTILITY,
         cooldown: 45,
-        charges: combatant.hasTalent(SPELLS.CAVALIER_TALENT.id) ? 2 : 1,
+        charges: combatant.hasTalent(SPELLS.CAVALIER_TALENT) ? 2 : 1,
         gcd: {
           base: 1500,
         },
@@ -204,7 +202,7 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: !combatant.hasTalent(SPELLS.BLESSING_OF_SPELLWARDING_TALENT.id),
+        enabled: !combatant.hasTalent(SPELLS.BLESSING_OF_SPELLWARDING_TALENT),
       },
       {
         spell: SPELLS.BLESSING_OF_SPELLWARDING_TALENT,
@@ -213,12 +211,12 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: combatant.hasTalent(SPELLS.BLESSING_OF_SPELLWARDING_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.BLESSING_OF_SPELLWARDING_TALENT),
       },
       {
         spell: SPELLS.BLESSING_OF_SACRIFICE,
         category: Abilities.SPELL_CATEGORIES.UTILITY,
-        cooldown: 2.5 * 60 - (combatant.traitsBySpellId[SPELLS.SACRIFICE_OF_THE_JUST.id] || 0) * 60,
+        cooldown: 2.5 * 60 - (combatant.traitsBySpellId[SPELLS.SACRIFICE_OF_THE_JUST] || 0) * 60,
         // castEfficiency: {
         //   suggestion: true,
         //   recommendedEfficiency: 0.85,
@@ -231,7 +229,7 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: combatant.hasTalent(SPELLS.AEGIS_OF_LIGHT_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.AEGIS_OF_LIGHT_TALENT),
       },
       {
         spell: SPELLS.CLEANSE_TOXINS,
@@ -266,7 +264,7 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: combatant.hasTalent(SPELLS.BLINDING_LIGHT_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.BLINDING_LIGHT_TALENT),
       },
       {
         spell: SPELLS.REPENTANCE_TALENT,
@@ -275,13 +273,13 @@ class Abilities extends CoreAbilities {
         gcd: {
           base: 1500,
         },
-        enabled: combatant.hasTalent(SPELLS.REPENTANCE_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.REPENTANCE_TALENT),
       },
       {
         spell: SPELLS.BASTION_OF_LIGHT_TALENT,
         category: Abilities.SPELL_CATEGORIES.ROTATIONAL,
         cooldown: 120,
-        enabled: combatant.hasTalent(SPELLS.BASTION_OF_LIGHT_TALENT.id),
+        enabled: combatant.hasTalent(SPELLS.BASTION_OF_LIGHT_TALENT),
       },
     ];
   }

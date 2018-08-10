@@ -3,9 +3,10 @@ import React from 'react';
 import Analyzer from 'Parser/Core/Analyzer';
 import Enemies from 'Parser/Core/Modules/Enemies';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import SpellLink from 'common/SpellLink';
+import getSpellIcon from 'common/getSpellIcon';
 import { formatPercentage } from 'common/format';
 import StatisticBox, { STATISTIC_ORDER } from 'Interface/Others/StatisticBox';
 
@@ -20,7 +21,7 @@ class Judgment extends Analyzer {
 
   on_byPlayer_applydebuff(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.JUDGMENT_DEBUFF.id) {
+    if (spellId !== SPELLS.JUDGMENT_DEBUFF) {
       return;
     }
     this.judgmentsApplied += 1;
@@ -33,17 +34,17 @@ class Judgment extends Analyzer {
     if (!enemy) {
       return;
     }
-    if (!enemy.hasBuff(SPELLS.JUDGMENT_DEBUFF.id, null, 250)) {
+    if (!enemy.hasBuff(SPELLS.JUDGMENT_DEBUFF, null, 250)) {
       return;
     }
     switch (spellId) {
-      case SPELLS.TEMPLARS_VERDICT_DAMAGE.id:
+      case SPELLS.TEMPLARS_VERDICT_DAMAGE:
         this.templarsVerdictConsumptions += 1;
         break;
-      case SPELLS.DIVINE_STORM_DAMAGE.id:
+      case SPELLS.DIVINE_STORM_DAMAGE:
         this.divineStormConsumptions += 1;
         break;
-      case SPELLS.JUSTICARS_VENGEANCE_TALENT.id:
+      case SPELLS.JUSTICARS_VENGEANCE_TALENT:
         this.justicarsVengeanceConsumptions += 1;
         break;
       default:
@@ -73,18 +74,18 @@ class Judgment extends Analyzer {
 
   suggestions(when) {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) => {
-      return suggest(<React.Fragment>You're not consuming all your <SpellLink id={SPELLS.JUDGMENT_CAST.id} icon /> debuffs.</React.Fragment>)
-        .icon(SPELLS.JUDGMENT_DEBUFF.icon)
+      return suggest(<React.Fragment>You're not consuming all your <SpellLink id={SPELLS.JUDGMENT_CAST} icon /> debuffs.</React.Fragment>)
+        .icon(getSpellIcon(SPELLS.JUDGMENT_DEBUFF))
         .actual(`${formatPercentage(this.percentageJudgmentsConsumed)}% Judgments consumed`)
         .recommended(`>${formatPercentage(recommended)}% is recommended`);
     });
   }
 
   statistic() {
-    const justicarsVengeanceText = this.selectedCombatant.hasTalent(SPELLS.JUSTICARS_VENGEANCE_TALENT.id) ? `<br>Justicars Vengeance consumptions: ${this.justicarsVengeanceConsumptions}` : ``; 
+    const justicarsVengeanceText = this.selectedCombatant.hasTalent(SPELLS.JUSTICARS_VENGEANCE_TALENT) ? `<br>Justicars Vengeance consumptions: ${this.justicarsVengeanceConsumptions}` : ``;
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.JUDGMENT_DEBUFF.id} />}
+        icon={<SpellIcon id={SPELLS.JUDGMENT_DEBUFF} />}
         value={`${formatPercentage(this.percentageJudgmentsConsumed)}%`}
         label="Judgments Consumed"
         tooltip={`

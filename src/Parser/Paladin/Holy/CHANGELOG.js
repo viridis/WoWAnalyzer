@@ -3,23 +3,24 @@ import React from 'react';
 import { sref, Zerotorescue, blazyb } from 'CONTRIBUTORS';
 import ItemLink from 'common/ItemLink';
 import ITEMS from 'common/ITEMS';
-import SPELLS from 'common/SPELLS';
 import SpellLink from 'common/SpellLink';
+
+import SPELLS from './SPELLS';
 
 export default [
   {
     date: new Date('2018-08-03'),
-    changes: <React.Fragment><SpellLink id={SPELLS.DEVOTION_AURA_TALENT.id} /> analysis will no longer crash when the combatlog is corrupt.</React.Fragment>,
+    changes: <React.Fragment><SpellLink id={SPELLS.DEVOTION_AURA_TALENT} /> analysis will no longer crash when the combatlog is corrupt.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-07-24'),
-    changes: <React.Fragment>Improved the accuracy of the <SpellLink id={SPELLS.DEVOTION_AURA_TALENT.id} /> statistic by correctly scaling the passive via the new formula (<a href="https://github.com/MartijnHols/HolyPaladin/blob/master/Spells/Talents/60/DevotionAura.md#about-the-passive-effect">more info</a>).</React.Fragment>,
+    changes: <React.Fragment>Improved the accuracy of the <SpellLink id={SPELLS.DEVOTION_AURA_TALENT} /> statistic by correctly scaling the passive via the new formula (<a href="https://github.com/MartijnHols/HolyPaladin/blob/master/Spells/Talents/60/DevotionAura.md#about-the-passive-effect">more info</a>).</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-07-24'),
-    changes: <React.Fragment>Improved the accuracy of the <SpellLink id={SPELLS.DEVOTION_AURA_TALENT.id} /> statistic by excluding false positives such as <SpellLink id={SPELLS.STAGGER.id} /> from the <SpellLink id={SPELLS.AURA_MASTERY.id} /> effect. Added a link to WCL to view the details of Aura Mastery.</React.Fragment>,
+    changes: <React.Fragment>Improved the accuracy of the <SpellLink id={SPELLS.DEVOTION_AURA_TALENT} /> statistic by excluding false positives such as <SpellLink id={SPELLS.STAGGER} /> from the <SpellLink id={SPELLS.AURA_MASTERY} /> effect. Added a link to WCL to view the details of Aura Mastery.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -29,22 +30,22 @@ export default [
   },
   {
     date: new Date('2018-07-22'),
-    changes: <React.Fragment>Reworked the <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT.id} /> analyzer to get a much more accurate result. The old method had a lot of false positive damage included due to bugs in the logs coming out of the game.</React.Fragment>,
+    changes: <React.Fragment>Reworked the <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT} /> analyzer to get a much more accurate result. The old method had a lot of false positive damage included due to bugs in the logs coming out of the game.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-07-22'),
-    changes: <React.Fragment>Changed the <SpellLink id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY.id} /> analyzer to include back to back procs.</React.Fragment>,
+    changes: <React.Fragment>Changed the <SpellLink id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY} /> analyzer to include back to back procs.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-07-21'),
-    changes: <React.Fragment>Healing increases such as <ItemLink id={ITEMS.ILTERENDI_CROWN_JEWEL_OF_SILVERMOON.id} /> now correctly include boosted healing caused by <SpellLink id={SPELLS.AVENGING_CRUSADER_TALENT.id} />.</React.Fragment>,
+    changes: <React.Fragment>Healing increases such as <ItemLink id={ITEMS.ILTERENDI_CROWN_JEWEL_OF_SILVERMOON.id} /> now correctly include boosted healing caused by <SpellLink id={SPELLS.AVENGING_CRUSADER_TALENT} />.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-07-19'),
-    changes: <React.Fragment>Added <SpellLink id={SPELLS.AVENGING_CRUSADER_TALENT.id} /> to the cooldown tracker.</React.Fragment>,
+    changes: <React.Fragment>Added <SpellLink id={SPELLS.AVENGING_CRUSADER_TALENT} /> to the cooldown tracker.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -54,27 +55,27 @@ export default [
   },
   {
     date: new Date('2018-07-18'),
-    changes: <React.Fragment>Added an accurate <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT.id} /> stat for the reworked version.</React.Fragment>,
+    changes: <React.Fragment>Added an accurate <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT} /> stat for the reworked version.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-07-03'),
-    changes: <React.Fragment>Fixed a bug where the mana reduction by <SpellLink id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY.id} /> of <SpellLink id={SPELLS.HOLY_SHOCK_CAST.id} /> and <SpellLink id={SPELLS.LIGHT_OF_DAWN_CAST.id} /> was not correctly accounted for in the cooldowns tab.</React.Fragment>,
+    changes: <React.Fragment>Fixed a bug where the mana reduction by <SpellLink id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY} /> of <SpellLink id={SPELLS.HOLY_SHOCK_CAST} /> and <SpellLink id={SPELLS.LIGHT_OF_DAWN_CAST} /> was not correctly accounted for in the cooldowns tab.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-06-29'),
-    changes: <React.Fragment>Updated the crit bonus for <SpellLink id={SPELLS.HOLY_SHOCK_CAST.id} /> to 30% (up from 25%).</React.Fragment>,
+    changes: <React.Fragment>Updated the crit bonus for <SpellLink id={SPELLS.HOLY_SHOCK_CAST} /> to 30% (up from 25%).</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-05-11'),
-    changes: <React.Fragment>Updated stat values to consider the crit changes for <SpellLink id={SPELLS.HOLY_SHOCK_CAST.id} /> (lowers the stat value of crit).</React.Fragment>,
+    changes: <React.Fragment>Updated stat values to consider the crit changes for <SpellLink id={SPELLS.HOLY_SHOCK_CAST} /> (lowers the stat value of crit).</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-05-11'),
-    changes: <React.Fragment>Implement support for <SpellLink id={SPELLS.UNBREAKABLE_SPIRIT_TALENT.id} /> (improves timeline accuracy with this talent).</React.Fragment>,
+    changes: <React.Fragment>Implement support for <SpellLink id={SPELLS.UNBREAKABLE_SPIRIT_TALENT} /> (improves timeline accuracy with this talent).</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -99,32 +100,32 @@ export default [
   },
   {
     date: new Date('2018-04-14'),
-    changes: <React.Fragment>Changed the analysis of <SpellLink id={SPELLS.DEVOTION_AURA_TALENT.id} /> to use a method that will continue to work in Battle for Azeroth.</React.Fragment>,
+    changes: <React.Fragment>Changed the analysis of <SpellLink id={SPELLS.DEVOTION_AURA_TALENT} /> to use a method that will continue to work in Battle for Azeroth.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-03-12'),
-    changes: <React.Fragment>Inefficient <SpellLink id={SPELLS.FLASH_OF_LIGHT.id} /> casts will now be highlighted in the timeline with a red border.</React.Fragment>,
+    changes: <React.Fragment>Inefficient <SpellLink id={SPELLS.FLASH_OF_LIGHT} /> casts will now be highlighted in the timeline with a red border.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-03-12'),
-    changes: <React.Fragment>Fixed a bug where chained <SpellLink id={SPELLS.FLASH_OF_LIGHT.id} /> casts might incorrectly mark the second <SpellLink id={SPELLS.FLASH_OF_LIGHT.id} /> as being affected by <SpellLink id={SPELLS.INFUSION_OF_LIGHT.id} /> instead of being marked as inefficient.</React.Fragment>,
+    changes: <React.Fragment>Fixed a bug where chained <SpellLink id={SPELLS.FLASH_OF_LIGHT} /> casts might incorrectly mark the second <SpellLink id={SPELLS.FLASH_OF_LIGHT} /> as being affected by <SpellLink id={SPELLS.INFUSION_OF_LIGHT} /> instead of being marked as inefficient.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-02-23'),
-    changes: <React.Fragment>Fixed beacon healing tracking for precasted <SpellLink id={SPELLS.FLASH_OF_LIGHT.id} /> into <SpellLink id={SPELLS.BEACON_OF_VIRTUE_TALENT.id} />.</React.Fragment>,
+    changes: <React.Fragment>Fixed beacon healing tracking for precasted <SpellLink id={SPELLS.FLASH_OF_LIGHT} /> into <SpellLink id={SPELLS.BEACON_OF_VIRTUE_TALENT} />.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-02-09'),
-    changes: <React.Fragment>Fixed an issue where sometimes Second Sunrise would not be detected properly, throwing off the average players hit per <SpellLink id={SPELLS.LIGHT_OF_DAWN_CAST.id} /> and some other things. This likely only might have occured if the logger had a poor internet connection.</React.Fragment>,
+    changes: <React.Fragment>Fixed an issue where sometimes Second Sunrise would not be detected properly, throwing off the average players hit per <SpellLink id={SPELLS.LIGHT_OF_DAWN_CAST} /> and some other things. This likely only might have occured if the logger had a poor internet connection.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2018-02-01'),
-    changes: <React.Fragment>Added <i>total filler <SpellLink id={SPELLS.FLASH_OF_LIGHT.id} /> casts while <SpellLink id={SPELLS.HOLY_SHOCK_CAST.id} /> was available</i> suggestion, and changed the filler <SpellLink id={SPELLS.LIGHT_OF_THE_MARTYR.id} /> check to also include a 200ms buffer time.</React.Fragment>,
+    changes: <React.Fragment>Added <i>total filler <SpellLink id={SPELLS.FLASH_OF_LIGHT} /> casts while <SpellLink id={SPELLS.HOLY_SHOCK_CAST} /> was available</i> suggestion, and changed the filler <SpellLink id={SPELLS.LIGHT_OF_THE_MARTYR} /> check to also include a 200ms buffer time.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -139,7 +140,7 @@ export default [
   },
   {
     date: new Date('2018-01-11'),
-    changes: <React.Fragment>Changed the <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT.id} /> suggestion thresholds to 80k minor/60k average/40k major importance (up from 60k minor/50k average/40k major) to more closely match the <SpellLink id={SPELLS.AURA_OF_MERCY_TALENT.id} /> average.</React.Fragment>,
+    changes: <React.Fragment>Changed the <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT} /> suggestion thresholds to 80k minor/60k average/40k major importance (up from 60k minor/50k average/40k major) to more closely match the <SpellLink id={SPELLS.AURA_OF_MERCY_TALENT} /> average.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -149,12 +150,12 @@ export default [
   },
   {
     date: new Date('2017-12-30'),
-    changes: <React.Fragment>Added a suggestion to consider using <SpellLink id={SPELLS.JUDGMENT_OF_LIGHT_HEAL.id} /> when not using it.</React.Fragment>,
+    changes: <React.Fragment>Added a suggestion to consider using <SpellLink id={SPELLS.JUDGMENT_OF_LIGHT_HEAL} /> when not using it.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
     date: new Date('2017-12-24'),
-    changes: <React.Fragment>Fixed a crash when using <ItemLink id={ITEMS.ILTERENDI_CROWN_JEWEL_OF_SILVERMOON.id} /> without <SpellLink id={SPELLS.JUDGMENT_OF_LIGHT_HEAL.id} />.</React.Fragment>,
+    changes: <React.Fragment>Fixed a crash when using <ItemLink id={ITEMS.ILTERENDI_CROWN_JEWEL_OF_SILVERMOON.id} /> without <SpellLink id={SPELLS.JUDGMENT_OF_LIGHT_HEAL} />.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -169,7 +170,7 @@ export default [
   },
   {
     date: new Date('2017-12-23'),
-    changes: <React.Fragment>Added <SpellLink id={SPELLS.LAY_ON_HANDS.id} /> to cast efficiency with a 20% recommended cooldown time (to suggest casting it at least once).</React.Fragment>,
+    changes: <React.Fragment>Added <SpellLink id={SPELLS.LAY_ON_HANDS} /> to cast efficiency with a 20% recommended cooldown time (to suggest casting it at least once).</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -179,7 +180,7 @@ export default [
   },
   {
     date: new Date('2017-12-08'),
-    changes: <React.Fragment>Increased <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT.id} />\'s suggestion healing requirement to 60k HPS for minor, 50k HPS for average and 40k HPS for major (up from 30k/25k/20k).</React.Fragment>,
+    changes: <React.Fragment>Increased <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT} />\'s suggestion healing requirement to 60k HPS for minor, 50k HPS for average and 40k HPS for major (up from 30k/25k/20k).</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {

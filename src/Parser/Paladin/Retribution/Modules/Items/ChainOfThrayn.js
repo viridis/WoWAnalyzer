@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 
 import Analyzer from 'Parser/Core/Analyzer';
@@ -23,7 +23,7 @@ class ChainOfThrayn extends Analyzer {
       // Friendly fire does not get increased
       return;
     }
-    if (this.selectedCombatant.hasBuff(SPELLS.CRUSADE_TALENT.id) || this.selectedCombatant.hasBuff(SPELLS.AVENGING_WRATH.id)) {
+    if (this.selectedCombatant.hasBuff(SPELLS.CRUSADE_TALENT) || this.selectedCombatant.hasBuff(SPELLS.AVENGING_WRATH)) {
       this.damageDone += calculateEffectiveDamage(event, CHAIN_OF_THRAYN_INCREASE);
     }
   }

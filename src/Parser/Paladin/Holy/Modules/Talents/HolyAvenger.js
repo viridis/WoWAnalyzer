@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import { formatNumber } from 'common/format';
 
@@ -27,27 +27,27 @@ class HolyAvenger extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.HOLY_AVENGER_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.HOLY_AVENGER_TALENT);
   }
 
   on_byPlayer_heal(event) {
-    if (this.selectedCombatant.hasBuff(SPELLS.HOLY_AVENGER_TALENT.id, event.timestamp)) {
+    if (this.selectedCombatant.hasBuff(SPELLS.HOLY_AVENGER_TALENT, event.timestamp)) {
       const effectiveHealing = (event.amount + (event.absorbed || 0));
       this.regularHealing += effectiveHealing - effectiveHealing / (1 + HOLY_AVENGER_HASTE_INCREASE);
 
       const spellId = event.ability.guid;
-      if (spellId === SPELLS.HOLY_SHOCK_HEAL.id) {
+      if (spellId === SPELLS.HOLY_SHOCK_HEAL) {
         this.holyShockHealing += calculateEffectiveHealing(event, HOLY_AVENGER_HOLY_SHOCK_HEALING_INCREASE);
       }
     }
   }
   on_beacon_heal(event) {
-    if (this.selectedCombatant.hasBuff(SPELLS.HOLY_AVENGER_TALENT.id, event.originalHeal.timestamp)) {
+    if (this.selectedCombatant.hasBuff(SPELLS.HOLY_AVENGER_TALENT, event.originalHeal.timestamp)) {
       const effectiveHealing = (event.amount + (event.absorbed || 0));
       this.regularHealing += effectiveHealing - effectiveHealing / (1 + HOLY_AVENGER_HASTE_INCREASE);
 
       const spellId = event.originalHeal.ability.guid;
-      if (spellId === SPELLS.HOLY_SHOCK_HEAL.id) {
+      if (spellId === SPELLS.HOLY_SHOCK_HEAL) {
         this.holyShockHealing += calculateEffectiveHealing(event, HOLY_AVENGER_HOLY_SHOCK_HEALING_INCREASE);
       }
     }
@@ -59,7 +59,7 @@ class HolyAvenger extends Analyzer {
     return (
       <StatisticBox
         position={STATISTIC_ORDER.OPTIONAL(75)}
-        icon={<SpellIcon id={SPELLS.HOLY_AVENGER_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.HOLY_AVENGER_TALENT} />}
         value={`≈${formatNumber(totalHealing / this.owner.fightDuration * 1000)} HPS`}
         label="Estimated healing"
         tooltip={`

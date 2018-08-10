@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import Analyzer from 'Parser/Core/Analyzer';
 import Enemies from 'Parser/Core/Modules/Enemies';
@@ -18,7 +18,7 @@ class AshesToDust extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasShoulder(ITEMS.ASHES_TO_DUST.id) && this.selectedCombatant.hasTalent(SPELLS.WAKE_OF_ASHES_TALENT.id);
+    this.active = this.selectedCombatant.hasShoulder(ITEMS.ASHES_TO_DUST.id) && this.selectedCombatant.hasTalent(SPELLS.WAKE_OF_ASHES_TALENT);
   }
 
   on_byPlayer_damage(event) {
@@ -26,7 +26,7 @@ class AshesToDust extends Analyzer {
       return;
     }
     const enemy = this.enemies.getEntity(event);
-    if (enemy && enemy.hasBuff(SPELLS.WAKE_OF_ASHES_TALENT.id)) {
+    if (enemy && enemy.hasBuff(SPELLS.WAKE_OF_ASHES_TALENT)) {
       this.damageDone += calculateEffectiveDamage(event, ASHES_TO_DUST_MODIFIER);
     }
   }

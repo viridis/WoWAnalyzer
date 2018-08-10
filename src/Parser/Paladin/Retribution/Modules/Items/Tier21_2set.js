@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import SpellLink from 'common/SpellLink';
 import { formatNumber } from 'common/format';
@@ -17,12 +17,12 @@ class Tier21_2set extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T21_2SET_BONUS.id);
+    this.active = this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T21_2SET_BONUS);
   }
 
   on_byPlayer_damage(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.JUDGMENT_CAST.id) {
+    if (spellId !== SPELLS.JUDGMENT_CAST) {
       return;
     }
     this.damageDone += calculateEffectiveDamage(event, RET_PALADIN_T21_2SET_MODIFIER);
@@ -30,9 +30,9 @@ class Tier21_2set extends Analyzer {
 
   item() {
     return {
-      id: `spell-${SPELLS.RET_PALADIN_T21_2SET_BONUS.id}`,
-      icon: <SpellIcon id={SPELLS.RET_PALADIN_T21_2SET_BONUS.id} />,
-      title: <SpellLink id={SPELLS.RET_PALADIN_T21_2SET_BONUS.id} icon={false} />,
+      id: `spell-${SPELLS.RET_PALADIN_T21_2SET_BONUS}`,
+      icon: <SpellIcon id={SPELLS.RET_PALADIN_T21_2SET_BONUS} />,
+      title: <SpellLink id={SPELLS.RET_PALADIN_T21_2SET_BONUS} icon={false} />,
       result: (
         <dfn data-tip={`
           The effective damage contributed by tier 21 2 peice.<br/>

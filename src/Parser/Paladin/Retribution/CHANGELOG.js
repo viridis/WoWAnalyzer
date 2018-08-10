@@ -1,17 +1,19 @@
 import React from 'react';
-import SPELLS from 'common/SPELLS';
+
 import SpellLink from 'common/SpellLink';
 import { Hewhosmites, Zerotorescue, Juko8} from 'CONTRIBUTORS';
+
+import SPELLS from './SPELLS';
 
 export default [
   {
     date: new Date('2018-06-25'),
-    changes: <React.Fragment>Added modules for <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT.id} icon /> and <SpellLink id={SPELLS.INQUISITION_TALENT.id} icon /> </React.Fragment>,
+    changes: <React.Fragment>Added modules for <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT} icon /> and <SpellLink id={SPELLS.INQUISITION_TALENT} icon /> </React.Fragment>,
     contributors: [Juko8],
   },
   {
     date: new Date('2018-06-24'),
-    changes: <React.Fragment>Updated modules for <SpellLink id={SPELLS.ART_OF_WAR.id} icon /> and <SpellLink id={SPELLS.JUDGMENT_CAST.id} icon /></React.Fragment>,
+    changes: <React.Fragment>Updated modules for <SpellLink id={SPELLS.ART_OF_WAR} icon /> and <SpellLink id={SPELLS.JUDGMENT_CAST} icon /></React.Fragment>,
     contributors: [Juko8],
   },
   {
@@ -21,7 +23,7 @@ export default [
   },
 	{
 		date: new Date('2018-02-21'),
-		changes: <React.Fragment>Added a <SpellLink id={SPELLS.CRUSADE_TALENT.id} icon /> module.</React.Fragment>,
+		changes: <React.Fragment>Added a <SpellLink id={SPELLS.CRUSADE_TALENT} icon /> module.</React.Fragment>,
 		contributors: [Hewhosmites],
 	},
 	{

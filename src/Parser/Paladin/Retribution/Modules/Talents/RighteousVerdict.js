@@ -1,8 +1,9 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
 import SpellIcon from 'common/SpellIcon';
+import getSpellIcon from 'common/getSpellIcon';
 import StatisticBox, { STATISTIC_ORDER } from 'Interface/Others/StatisticBox';
 import { formatNumber, formatPercentage } from 'common/format';
 
@@ -19,22 +20,22 @@ class RighteousVerdict extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.RIGHTEOUS_VERDICT_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.RIGHTEOUS_VERDICT_TALENT);
   }
 
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.TEMPLARS_VERDICT.id) {
+    if (spellId === SPELLS.TEMPLARS_VERDICT) {
       this.totalSpenders++;
     }
   }
 
   on_byPlayer_damage(event) {
     const spellId = event.ability.guid;
-    if (!this.selectedCombatant.hasBuff(SPELLS.RIGHTEOUS_VERDICT_BUFF.id)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.RIGHTEOUS_VERDICT_BUFF)) {
       return;
     }
-    if (spellId === SPELLS.TEMPLARS_VERDICT_DAMAGE.id) {
+    if (spellId === SPELLS.TEMPLARS_VERDICT_DAMAGE) {
       this.spendersInsideBuff++; 
       this.damageDone += calculateEffectiveDamage(event, RIGHTEOUS_VERDICT_MODIFIER);
     }
@@ -54,8 +55,8 @@ class RighteousVerdict extends Analyzer {
 
   suggestions(when) {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) => {
-      return suggest(<React.Fragment>Your usage of <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT.id} icon /> can be improved. Make sure you aren't letting the <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT.id} icon /> buff run out before casting <SpellLink id={SPELLS.TEMPLARS_VERDICT.id} icon /> again</React.Fragment>)
-        .icon(SPELLS.RIGHTEOUS_VERDICT_TALENT.icon)
+      return suggest(<React.Fragment>Your usage of <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT} icon /> can be improved. Make sure you aren't letting the <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT} icon /> buff run out before casting <SpellLink id={SPELLS.TEMPLARS_VERDICT} icon /> again</React.Fragment>)
+        .icon(getSpellIcon(SPELLS.RIGHTEOUS_VERDICT_TALENT))
         .actual(`${formatPercentage(actual)}% of Templars Verdicts with the buff`)
         .recommended(`>${formatPercentage(recommended)}% is recommended`);
     });
@@ -64,7 +65,7 @@ class RighteousVerdict extends Analyzer {
   statistic() {
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.RIGHTEOUS_VERDICT_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.RIGHTEOUS_VERDICT_TALENT} />}
         value={formatNumber(this.damageDone)}
         label="Damage Done"
         tooltip={`

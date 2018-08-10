@@ -1,4 +1,4 @@
-import SPELLS from 'common/SPELLS';
+import getSpellName from 'common/getSpellName';
 import { formatMilliseconds, formatPercentage } from 'common/format';
 
 import Analyzer from 'Parser/Core/Analyzer';
@@ -7,10 +7,6 @@ import Abilities from './Abilities';
 
 const debug = false;
 const INVALID_COOLDOWN_CONFIG_LAG_MARGIN = 150; // not sure what this is based around, but <150 seems to catch most false positives
-
-function spellName(spellId) {
-  return SPELLS[spellId] ? SPELLS[spellId].name : '???';
-}
 
 class SpellUsable extends Analyzer {
   static dependencies = {
@@ -38,9 +34,9 @@ class SpellUsable extends Analyzer {
       return spellId; // not a class ability
     }
     if (ability.spell instanceof Array) {
-      return ability.spell[0].id;
+      return ability.spell[0];
     } else {
-      return ability.spell.id;
+      return ability.spell;
     }
   }
 
@@ -102,7 +98,7 @@ class SpellUsable extends Analyzer {
     const canSpellId = this._getCanonicalId(spellId);
     const expectedCooldownDuration = this.abilities.getExpectedCooldownDuration(canSpellId);
     if (!expectedCooldownDuration) {
-      debug && console.warn('SpellUsable', 'Spell', spellName(canSpellId), canSpellId, 'doesn\'t have a cooldown.');
+      debug && console.warn('SpellUsable', 'Spell', getSpellName(canSpellId), canSpellId, 'doesn\'t have a cooldown.');
       return;
     }
 
@@ -127,7 +123,7 @@ class SpellUsable extends Analyzer {
           console.error(
             formatMilliseconds(this.owner.fightDuration),
             'SpellUsable',
-            spellName(canSpellId), canSpellId, `was cast while already marked as on cooldown. It probably either has multiple charges, can be reset early, cooldown can be reduced, the configured CD is invalid, the Haste is too low, the combatlog records multiple casts per player cast (e.g. ticks of a channel) or this is a latency issue.`,
+            getSpellName(canSpellId), canSpellId, `was cast while already marked as on cooldown. It probably either has multiple charges, can be reset early, cooldown can be reduced, the configured CD is invalid, the Haste is too low, the combatlog records multiple casts per player cast (e.g. ticks of a channel) or this is a latency issue.`,
             'fight time:', timestamp - this.owner.fight.start_time,
             'time passed:', (timestamp - this._currentCooldowns[canSpellId].start),
             'cooldown remaining:', remainingCooldown,
@@ -188,7 +184,7 @@ class SpellUsable extends Analyzer {
     }
     const expectedCooldownDuration = this.abilities.getExpectedCooldownDuration(canSpellId);
     if (!expectedCooldownDuration) {
-      debug && console.warn('SpellUsable', 'Spell', spellName(canSpellId), canSpellId, 'doesn\'t have a cooldown.');
+      debug && console.warn('SpellUsable', 'Spell', getSpellName(canSpellId), canSpellId, 'doesn\'t have a cooldown.');
       return;
     }
 
@@ -216,7 +212,7 @@ class SpellUsable extends Analyzer {
     } else {
       this._currentCooldowns[canSpellId].totalReductionTime += reductionMs;
       const fightDuration = formatMilliseconds(timestamp - this.owner.fight.start_time);
-      debug && console.log(fightDuration, 'SpellUsable', 'Reduced', spellName(canSpellId), canSpellId, 'by', reductionMs, 'remaining:', this.cooldownRemaining(canSpellId, timestamp), 'old:', cooldownRemaining, 'new expected duration:', this._currentCooldowns[canSpellId].expectedDuration - this._currentCooldowns[canSpellId].totalReductionTime, 'total CDR:', this._currentCooldowns[canSpellId].totalReductionTime);
+      debug && console.log(fightDuration, 'SpellUsable', 'Reduced', getSpellName(canSpellId), canSpellId, 'by', reductionMs, 'remaining:', this.cooldownRemaining(canSpellId, timestamp), 'old:', cooldownRemaining, 'new expected duration:', this._currentCooldowns[canSpellId].expectedDuration - this._currentCooldowns[canSpellId].totalReductionTime, 'total CDR:', this._currentCooldowns[canSpellId].totalReductionTime);
       return reductionMs;
     }
   }
@@ -236,7 +232,7 @@ class SpellUsable extends Analyzer {
     const cooldownRemaining = this.cooldownRemaining(canSpellId, timestamp);
     this._currentCooldowns[canSpellId].totalReductionTime -= extensionMS;
     const fightDuration = formatMilliseconds(timestamp - this.owner.fight.start_time);
-    debug && console.log(fightDuration, 'SpellUsable', 'Extended', spellName(canSpellId), canSpellId, 'by', extensionMS, 'remaining:', this.cooldownRemaining(canSpellId, timestamp), 'old:', cooldownRemaining, 'new expected duration:', this._currentCooldowns[canSpellId].expectedDuration - this._currentCooldowns[canSpellId].totalReductionTime, 'total extension:', -this._currentCooldowns[canSpellId].totalReductionTime);
+    debug && console.log(fightDuration, 'SpellUsable', 'Extended', getSpellName(canSpellId), canSpellId, 'by', extensionMS, 'remaining:', this.cooldownRemaining(canSpellId, timestamp), 'old:', cooldownRemaining, 'new expected duration:', this._currentCooldowns[canSpellId].expectedDuration - this._currentCooldowns[canSpellId].totalReductionTime, 'total extension:', -this._currentCooldowns[canSpellId].totalReductionTime);
     return extensionMS;
   }
 
@@ -268,19 +264,19 @@ class SpellUsable extends Analyzer {
       const fightDuration = formatMilliseconds(event.timestamp - this.owner.fight.start_time);
       switch (event.trigger) {
         case 'begincooldown':
-          console.log(fightDuration, 'SpellUsable', 'Cooldown started:', spellName(spellId), spellId, 'expected duration:', event.expectedDuration, `(charges on cooldown: ${this._currentCooldowns[spellId].chargesOnCooldown})`);
+          console.log(fightDuration, 'SpellUsable', 'Cooldown started:', getSpellName(spellId), spellId, 'expected duration:', event.expectedDuration, `(charges on cooldown: ${this._currentCooldowns[spellId].chargesOnCooldown})`);
           break;
         case 'addcooldowncharge':
-          console.log(fightDuration, 'SpellUsable', 'Used another charge:', spellName(spellId), spellId, `(charges on cooldown: ${this._currentCooldowns[spellId].chargesOnCooldown})`);
+          console.log(fightDuration, 'SpellUsable', 'Used another charge:', getSpellName(spellId), spellId, `(charges on cooldown: ${this._currentCooldowns[spellId].chargesOnCooldown})`);
           break;
         case 'refreshcooldown':
-          console.log(fightDuration, 'SpellUsable', 'Cooldown refreshed:', spellName(spellId), spellId);
+          console.log(fightDuration, 'SpellUsable', 'Cooldown refreshed:', getSpellName(spellId), spellId);
           break;
         case 'restorecharge':
-          console.log(fightDuration, 'SpellUsable', 'Charge restored:', spellName(spellId), spellId, `(charges left on cooldown: ${this._currentCooldowns[spellId].chargesOnCooldown})`);
+          console.log(fightDuration, 'SpellUsable', 'Charge restored:', getSpellName(spellId), spellId, `(charges left on cooldown: ${this._currentCooldowns[spellId].chargesOnCooldown})`);
           break;
         case 'endcooldown':
-          console.log(fightDuration, 'SpellUsable', 'Cooldown finished:', spellName(spellId), spellId);
+          console.log(fightDuration, 'SpellUsable', 'Cooldown finished:', getSpellName(spellId), spellId);
           break;
         default:
           break;
@@ -301,7 +297,7 @@ class SpellUsable extends Analyzer {
         const cooldown = this._currentCooldowns[spellId];
         const expectedEnd = Math.round(cooldown.start + cooldown.expectedDuration - cooldown.totalReductionTime);
         const fightDuration = formatMilliseconds(timestamp - this.owner.fight.start_time);
-        debug && console.log(fightDuration, 'SpellUsable', 'Clearing', spellName(spellId), spellId, 'due to expiry');
+        debug && console.log(fightDuration, 'SpellUsable', 'Clearing', getSpellName(spellId), spellId, 'due to expiry');
         this.endCooldown(Number(spellId), false, expectedEnd);
       }
     });
@@ -334,7 +330,7 @@ class SpellUsable extends Analyzer {
 
       cooldown.expectedDuration = newExpectedDuration;
 
-      debug && console.log(fightDuration, 'SpellUsable', 'Adjusted', spellName(spellId), spellId, 'cooldown duration due to Haste change; old duration without CDRs:', originalExpectedDuration, 'CDRs:', cooldown.totalReductionTime, 'time expired:', timePassed, 'progress:', `${formatPercentage(progress)}%`, 'cooldown duration with current Haste:', cooldownDurationWithCurrentHaste, '(without CDRs)', 'actual new expected duration:', newExpectedDuration, '(without CDRs)');
+      debug && console.log(fightDuration, 'SpellUsable', 'Adjusted', getSpellName(spellId), spellId, 'cooldown duration due to Haste change; old duration without CDRs:', originalExpectedDuration, 'CDRs:', cooldown.totalReductionTime, 'time expired:', timePassed, 'progress:', `${formatPercentage(progress)}%`, 'cooldown duration with current Haste:', cooldownDurationWithCurrentHaste, '(without CDRs)', 'actual new expected duration:', newExpectedDuration, '(without CDRs)');
     });
   }
   _calculateNewCooldownDuration(progress, newDuration) {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ITEMS from 'common/ITEMS';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
 import Analyzer from 'Parser/Core/Analyzer';
 
@@ -14,7 +14,7 @@ class SoulOfTheHighlord extends Analyzer {
   item() {
     return {
       item: ITEMS.SOUL_OF_THE_HIGHLORD,
-      result: <React.Fragment>This gave you <SpellLink id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY.id} />.</React.Fragment>,
+      result: <React.Fragment>This gave you <SpellLink id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY} />.</React.Fragment>,
     };
   }
 }

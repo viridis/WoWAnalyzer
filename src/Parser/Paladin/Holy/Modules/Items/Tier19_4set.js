@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import SpellLink from 'common/SpellLink';
 import HIT_TYPES from 'Parser/Core/HIT_TYPES';
@@ -27,7 +27,7 @@ class Tier19_4set extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF.id);
+    this.active = this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF);
   }
 
   iolProcsUsedSinceLastHolyShock = 0;
@@ -35,15 +35,15 @@ class Tier19_4set extends Analyzer {
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
 
-    if (spellId === SPELLS.HOLY_SHOCK_HEAL.id) {
+    if (spellId === SPELLS.HOLY_SHOCK_HEAL) {
       if (event.hitType === HIT_TYPES.CRIT) {
         debug && console.log((event.timestamp - this.owner.fight.start_time) / 1000, 'Holy Shock crit!', event);
         this.iolProcsUsedSinceLastHolyShock = 0;
       }
     }
 
-    if (spellId === SPELLS.FLASH_OF_LIGHT.id || spellId === SPELLS.HOLY_LIGHT.id) {
-      const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT.id, event.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
+    if (spellId === SPELLS.FLASH_OF_LIGHT || spellId === SPELLS.HOLY_LIGHT) {
+      const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT, event.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
 
       if (hasIol) {
         this.iolProcsUsedSinceLastHolyShock += 1;
@@ -52,7 +52,7 @@ class Tier19_4set extends Analyzer {
         if (this.iolProcsUsedSinceLastHolyShock === 2) {
           debug && console.log((event.timestamp - this.owner.fight.start_time) / 1000, 'Bonus IOL', event, event);
           this.bonusIolProcsUsed += 1;
-          if (spellId === SPELLS.FLASH_OF_LIGHT.id) {
+          if (spellId === SPELLS.FLASH_OF_LIGHT) {
             this.bonusIolProcsUsedOnFol += 1;
             this.healing += calculateEffectiveHealing(event, INFUSION_OF_LIGHT_FOL_HEALING_INCREASE);
           }
@@ -65,7 +65,7 @@ class Tier19_4set extends Analyzer {
   on_byPlayer_damage(event) {
     const spellId = event.ability.guid;
 
-    if (spellId === SPELLS.HOLY_SHOCK_DAMAGE.id) {
+    if (spellId === SPELLS.HOLY_SHOCK_DAMAGE) {
       if (event.hitType === HIT_TYPES.CRIT) {
         debug && console.log((event.timestamp - this.owner.fight.start_time) / 1000, 'Holy Shock crit!');
         this.iolProcsUsedSinceLastHolyShock = 0;
@@ -75,7 +75,7 @@ class Tier19_4set extends Analyzer {
 
   on_beacon_heal(event) {
     const spellId = event.originalHeal.ability.guid;
-    if (spellId !== SPELLS.FLASH_OF_LIGHT.id) {
+    if (spellId !== SPELLS.FLASH_OF_LIGHT) {
       return;
     }
     const combatant = this.combatants.players[event.originalHeal.targetID];
@@ -84,7 +84,7 @@ class Tier19_4set extends Analyzer {
       debug && console.log('Skipping beacon heal event since combatant couldn\'t be found:', event, 'for heal:', event.originalHeal);
       return;
     }
-    const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT.id, event.originalHeal.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
+    const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT, event.originalHeal.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
     if (!hasIol) {
       return;
     }
@@ -97,9 +97,9 @@ class Tier19_4set extends Analyzer {
 
   item() {
     return {
-      id: `spell-${SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF.id}`,
-      icon: <SpellIcon id={SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF.id} />,
-      title: <SpellLink id={SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF.id} icon={false} />,
+      id: `spell-${SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF}`,
+      icon: <SpellIcon id={SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF} />,
+      title: <SpellLink id={SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF} icon={false} />,
       result: (
         <dfn data-tip={`The actual effective healing contributed by the tier 19 4 set bonus. <b>This does not include any healing "gained" from the Holy Light cast time reduction.</b> You used a total of ${this.totalIolProcsUsed} Infusion of Light procs, ${this.bonusIolProcsUsed} of those were from procs from the 4 set bonus and ${this.bonusIolProcsUsedOnFol} of those bonus procs were used on Flash of Light.`}>
           <ItemHealingDone amount={this.healing} />

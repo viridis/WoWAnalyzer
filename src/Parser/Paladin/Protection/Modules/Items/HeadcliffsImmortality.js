@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ITEMS from 'common/ITEMS';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import Analyzer from 'Parser/Core/Analyzer';
 import { formatPercentage } from 'common/format';
 
@@ -19,7 +19,7 @@ class HeadcliffsImmortality extends Analyzer {
   }
 
   get uptime() {
-    return this.selectedCombatant.getBuffUptime(SPELLS.IMMORTAL_OBJECT.id) / this.owner.fightDuration;
+    return this.selectedCombatant.getBuffUptime(SPELLS.IMMORTAL_OBJECT) / this.owner.fightDuration;
   }
 
   item() {

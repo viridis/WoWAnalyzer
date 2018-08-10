@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
 import ITEMS from 'common/ITEMS';
 import ItemLink from 'common/ItemLink';
@@ -52,7 +52,7 @@ class Checklist extends CoreChecklist {
   rules = [
     new Rule({
       name: 'Always be casting',
-      description: <React.Fragment>You should try to avoid doing nothing during the fight. If you have to move, use your <SpellLink id={SPELLS.DIVINE_STEED.id} icon /> to minimize downtime. Also use ranged abilities like <SpellLink id={SPELLS.JUDGMENT_CAST.id} icon /> or <SpellLink id={SPELLS.BLADE_OF_JUSTICE.id} icon /> if you are out of melee range for extended periods of time.</React.Fragment>,
+      description: <React.Fragment>You should try to avoid doing nothing during the fight. If you have to move, use your <SpellLink id={SPELLS.DIVINE_STEED} icon /> to minimize downtime. Also use ranged abilities like <SpellLink id={SPELLS.JUDGMENT_CAST} icon /> or <SpellLink id={SPELLS.BLADE_OF_JUSTICE} icon /> if you are out of melee range for extended periods of time.</React.Fragment>,
       requirements: () => {
         return [
           new Requirement({
@@ -64,7 +64,7 @@ class Checklist extends CoreChecklist {
     }),
     new Rule({
       name: 'Use core abilities as often as possible',
-      description: <React.Fragment>Spells with short cooldowns like <SpellLink id={SPELLS.JUDGMENT_CAST.id} icon />, <SpellLink id={SPELLS.BLADE_OF_JUSTICE.id} icon />, and <SpellLink id={SPELLS.CRUSADER_STRIKE.id} icon /> should be used as often as possible.</React.Fragment>,
+      description: <React.Fragment>Spells with short cooldowns like <SpellLink id={SPELLS.JUDGMENT_CAST} icon />, <SpellLink id={SPELLS.BLADE_OF_JUSTICE} icon />, and <SpellLink id={SPELLS.CRUSADER_STRIKE} icon /> should be used as often as possible.</React.Fragment>,
       requirements: () => {
         const combatant = this.selectedCombatant;
         return [
@@ -80,64 +80,64 @@ class Checklist extends CoreChecklist {
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.CONSECRATION_TALENT,
-            when: combatant.hasTalent(SPELLS.CONSECRATION_TALENT.id),
+            when: combatant.hasTalent(SPELLS.CONSECRATION_TALENT),
           }),
         ];
       },
     }),
     new Rule({
       name: 'Use your cooldowns',
-      description: <React.Fragment>Retribution Paladin is a very cooldown dependant spec. Make sure you are keeping spells like <SpellLink id={this.selectedCombatant.hasTalent(SPELLS.CRUSADE_TALENT.id) ? SPELLS.CRUSADE_TALENT.id : SPELLS.AVENGING_WRATH.id} icon /> and <SpellLink id={SPELLS.WAKE_OF_ASHES_TALENT.id} /> on cooldown.</React.Fragment>,
+      description: <React.Fragment>Retribution Paladin is a very cooldown dependant spec. Make sure you are keeping spells like <SpellLink id={this.selectedCombatant.hasTalent(SPELLS.CRUSADE_TALENT) ? SPELLS.CRUSADE_TALENT : SPELLS.AVENGING_WRATH} icon /> and <SpellLink id={SPELLS.WAKE_OF_ASHES_TALENT} /> on cooldown.</React.Fragment>,
       requirements: () => {
         const combatant = this.selectedCombatant;        
         return [
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.CRUSADE_TALENT,
-            when: combatant.hasTalent(SPELLS.CRUSADE_TALENT.id),
+            when: combatant.hasTalent(SPELLS.CRUSADE_TALENT),
           }),
           new Requirement({
-            name: <React.Fragment>Good first global with <SpellLink id={SPELLS.CRUSADE_TALENT.id} icon /> buff</React.Fragment>,
+            name: <React.Fragment>Good first global with <SpellLink id={SPELLS.CRUSADE_TALENT} icon /> buff</React.Fragment>,
             check: () => this.crusade.suggestionThresholds,
-            when: combatant.hasTalent(SPELLS.CRUSADE_TALENT.id),
+            when: combatant.hasTalent(SPELLS.CRUSADE_TALENT),
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.AVENGING_WRATH,
-            when: !combatant.hasTalent(SPELLS.CRUSADE_TALENT.id),
+            when: !combatant.hasTalent(SPELLS.CRUSADE_TALENT),
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.WAKE_OF_ASHES_TALENT,
-            when: combatant.hasTalent(SPELLS.WAKE_OF_ASHES_TALENT.id),
+            when: combatant.hasTalent(SPELLS.WAKE_OF_ASHES_TALENT),
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.EXECUTION_SENTENCE_TALENT,
-            when: combatant.hasTalent(SPELLS.EXECUTION_SENTENCE_TALENT.id),
+            when: combatant.hasTalent(SPELLS.EXECUTION_SENTENCE_TALENT),
           }),
         ];
       },
     }),
     new Rule({
       name: 'Use procs and buffs efficiently',
-      description: <React.Fragment>Buffs and procs like <SpellLink id={SPELLS.INQUISITION_TALENT.id} icon />, <SpellLink id={SPELLS.ART_OF_WAR.id} icon /> and <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT.id} icon /> have a significant impact on your damage, use them well</React.Fragment>,
+      description: <React.Fragment>Buffs and procs like <SpellLink id={SPELLS.INQUISITION_TALENT} icon />, <SpellLink id={SPELLS.ART_OF_WAR} icon /> and <SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT} icon /> have a significant impact on your damage, use them well</React.Fragment>,
       requirements: () => {
         const combatant = this.selectedCombatant;
         return [
           new Requirement({
-            name: <React.Fragment><SpellLink id={SPELLS.ART_OF_WAR.id} icon /> procs used</React.Fragment>,
+            name: <React.Fragment><SpellLink id={SPELLS.ART_OF_WAR} icon /> procs used</React.Fragment>,
             check: () => this.artOfWar.suggestionThresholds,
           }),
           new Requirement({
-            name: <React.Fragment><SpellLink id={SPELLS.JUDGMENT_CAST.id} icon /> debuffs consumed</React.Fragment>,
+            name: <React.Fragment><SpellLink id={SPELLS.JUDGMENT_CAST} icon /> debuffs consumed</React.Fragment>,
             check: () => this.judgment.suggestionThresholds,
           }),
           new Requirement({
-            name: <React.Fragment>Damage empowered by <SpellLink id={SPELLS.INQUISITION_TALENT.id} icon /></React.Fragment>,
+            name: <React.Fragment>Damage empowered by <SpellLink id={SPELLS.INQUISITION_TALENT} icon /></React.Fragment>,
             check: () => this.inquisition.suggestionThresholds,
-            when: combatant.hasTalent(SPELLS.INQUISITION_TALENT.id),
+            when: combatant.hasTalent(SPELLS.INQUISITION_TALENT),
           }),
           new Requirement({
-            name: <React.Fragment><SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT.id} icon /> efficiency</React.Fragment>,
+            name: <React.Fragment><SpellLink id={SPELLS.RIGHTEOUS_VERDICT_TALENT} icon /> efficiency</React.Fragment>,
             check: () => this.righteousVerdict.suggestionThresholds,
-            when: combatant.hasTalent(SPELLS.RIGHTEOUS_VERDICT_TALENT.id),
+            when: combatant.hasTalent(SPELLS.RIGHTEOUS_VERDICT_TALENT),
           }),
         ];
       },
@@ -179,7 +179,7 @@ class Checklist extends CoreChecklist {
     }),
   	new Rule({
       name: 'Use your utility and defensive spells',
-      description: <React.Fragment>Use other spells in your toolkit to your advantage. For example, you can use <SpellLink id={SPELLS.SHIELD_OF_VENGEANCE.id} icon /> to mitigate some damage and <SpellLink id={SPELLS.LAY_ON_HANDS.id} icon /> to save your own or someone elses life.</React.Fragment>,
+      description: <React.Fragment>Use other spells in your toolkit to your advantage. For example, you can use <SpellLink id={SPELLS.SHIELD_OF_VENGEANCE} icon /> to mitigate some damage and <SpellLink id={SPELLS.LAY_ON_HANDS} icon /> to save your own or someone elses life.</React.Fragment>,
       requirements: () => {
         return [
 	        new GenericCastEfficiencyRequirement({

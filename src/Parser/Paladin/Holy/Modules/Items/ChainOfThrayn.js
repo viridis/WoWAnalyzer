@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import Analyzer from 'Parser/Core/Analyzer';
 import ItemHealingDone from 'Interface/Others/ItemHealingDone';
@@ -28,7 +28,7 @@ class ChainOfThrayn extends Analyzer {
       return;
     }
 
-    if (!this.selectedCombatant.hasBuff(SPELLS.AVENGING_WRATH.id, event.timestamp)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.AVENGING_WRATH, event.timestamp)) {
       return;
     }
 

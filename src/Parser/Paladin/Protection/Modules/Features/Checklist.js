@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 
 import SpellLink from 'common/SpellLink';
 
@@ -39,11 +39,11 @@ class Checklist extends CoreChecklist {
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.BLESSED_HAMMER_TALENT,
-            when: this.selectedCombatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT.id),
+            when: this.selectedCombatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT),
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.HAMMER_OF_THE_RIGHTEOUS,
-            when: !this.selectedCombatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT.id),
+            when: !this.selectedCombatant.hasTalent(SPELLS.BLESSED_HAMMER_TALENT),
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.AVENGERS_SHIELD,
@@ -61,23 +61,23 @@ class Checklist extends CoreChecklist {
     new Rule({
       name: (
         <React.Fragment>
-          Mitigate incoming damage with <SpellLink id={SPELLS.SHIELD_OF_THE_RIGHTEOUS.id} /> and <SpellLink id={SPELLS.CONSECRATION_CAST.id} />
+          Mitigate incoming damage with <SpellLink id={SPELLS.SHIELD_OF_THE_RIGHTEOUS} /> and <SpellLink id={SPELLS.CONSECRATION_CAST} />
         </React.Fragment> 
       ),
       description: (
         <React.Fragment>
-          Maintain <SpellLink id={SPELLS.CONSECRATION_CAST.id} /> to reduce all incoming damage by a flat amount and use it as a rotational filler if necessary.<br />
-          Use <SpellLink id={SPELLS.SHIELD_OF_THE_RIGHTEOUS.id} /> to flat out your physical damage taken or weave them into your rotation when you're about to cap charges.
+          Maintain <SpellLink id={SPELLS.CONSECRATION_CAST} /> to reduce all incoming damage by a flat amount and use it as a rotational filler if necessary.<br />
+          Use <SpellLink id={SPELLS.SHIELD_OF_THE_RIGHTEOUS} /> to flat out your physical damage taken or weave them into your rotation when you're about to cap charges.
         </React.Fragment>
       ),
       requirements: () => {
         return [
           new Requirement({
-            name: <React.Fragment><SpellLink id={SPELLS.SHIELD_OF_THE_RIGHTEOUS.id} /> efficiency</React.Fragment>,
+            name: <React.Fragment><SpellLink id={SPELLS.SHIELD_OF_THE_RIGHTEOUS} /> efficiency</React.Fragment>,
             check: () => this.shieldOfTheRighteous.suggestionThresholds,
           }),
           new Requirement({
-            name: <React.Fragment><SpellLink id={SPELLS.CONSECRATION_CAST.id} /> uptime</React.Fragment>,
+            name: <React.Fragment><SpellLink id={SPELLS.CONSECRATION_CAST} /> uptime</React.Fragment>,
             check: () => this.consecration.uptimeSuggestionThresholds,
           }),
         ];
@@ -94,7 +94,7 @@ class Checklist extends CoreChecklist {
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.SERAPHIM_TALENT,
-            when: this.selectedCombatant.hasTalent(SPELLS.SERAPHIM_TALENT.id),
+            when: this.selectedCombatant.hasTalent(SPELLS.SERAPHIM_TALENT),
           }),
         ];
       },
@@ -107,11 +107,11 @@ class Checklist extends CoreChecklist {
         return [
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.HAND_OF_THE_PROTECTOR_TALENT,
-            when: this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT.id),
+            when: this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT),
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.LIGHT_OF_THE_PROTECTOR,
-            when: !this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT.id),
+            when: !this.selectedCombatant.hasTalent(SPELLS.HAND_OF_THE_PROTECTOR_TALENT),
           }),
           new GenericCastEfficiencyRequirement({
             spell: SPELLS.ARDENT_DEFENDER,

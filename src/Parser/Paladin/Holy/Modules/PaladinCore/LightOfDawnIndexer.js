@@ -1,11 +1,11 @@
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import Analyzer from 'Parser/Core/Analyzer';
 
 class LightOfDawnIndexer extends Analyzer {
   _lightOfDawnHealIndex = 0;
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.LIGHT_OF_DAWN_CAST.id) {
+    if (spellId !== SPELLS.LIGHT_OF_DAWN_CAST) {
       return;
     }
 
@@ -14,7 +14,7 @@ class LightOfDawnIndexer extends Analyzer {
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.LIGHT_OF_DAWN_HEAL.id) {
+    if (spellId !== SPELLS.LIGHT_OF_DAWN_HEAL) {
       return;
     }
 

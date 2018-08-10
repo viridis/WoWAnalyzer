@@ -2,9 +2,10 @@ import React from 'react';
 
 import Analyzer from 'Parser/Core/Analyzer';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import SpellLink from 'common/SpellLink';
+import getSpellIcon from 'common/getSpellIcon';
 import { formatPercentage } from 'common/format';
 import StatisticBox, { STATISTIC_ORDER } from 'Interface/Others/StatisticBox';
 import { ABILITIES_AFFECTED_BY_DAMAGE_INCREASES } from '../../Constants';
@@ -17,7 +18,7 @@ class Inquisition extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.INQUISITION_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.INQUISITION_TALENT);
   }
 
   on_byPlayer_damage(event) {
@@ -25,7 +26,7 @@ class Inquisition extends Analyzer {
     if (!ABILITIES_AFFECTED_BY_DAMAGE_INCREASES.includes(spellId)) {
       return;
     }
-    if (this.selectedCombatant.hasBuff(SPELLS.INQUISITION_TALENT.id)) {
+    if (this.selectedCombatant.hasBuff(SPELLS.INQUISITION_TALENT)) {
       this.buffedDamage += event.amount + (event.absorbed || 0);
     }
     else {
@@ -37,7 +38,7 @@ class Inquisition extends Analyzer {
   }
 
   get uptime() {
-    return this.selectedCombatant.getBuffUptime(SPELLS.INQUISITION_TALENT.id) / this.owner.fightDuration;
+    return this.selectedCombatant.getBuffUptime(SPELLS.INQUISITION_TALENT) / this.owner.fightDuration;
   }
 
   get suggestionThresholds() {
@@ -54,8 +55,8 @@ class Inquisition extends Analyzer {
 
   suggestions(when) {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) => {
-      return suggest(<React.Fragment>Your <SpellLink id={SPELLS.INQUISITION_TALENT.id} icon /> efficiency is low. You should aim to have it active as often as possible while dealing damage</React.Fragment>)
-        .icon(SPELLS.INQUISITION_TALENT.icon)
+      return suggest(<React.Fragment>Your <SpellLink id={SPELLS.INQUISITION_TALENT} icon /> efficiency is low. You should aim to have it active as often as possible while dealing damage</React.Fragment>)
+        .icon(getSpellIcon(SPELLS.INQUISITION_TALENT))
         .actual(`${formatPercentage(this.efficiency)}% of damage buffed`)
         .recommended(`>${formatPercentage(recommended)}% is recommended`);
     });
@@ -64,7 +65,7 @@ class Inquisition extends Analyzer {
   statistic() {
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.INQUISITION_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.INQUISITION_TALENT} />}
         value={`${formatPercentage(this.efficiency)}%`}
         label="Damage done while buffed"
         tooltip={`Relative amount of damage done while Inquisition was active. You had Inquisition active for ${formatPercentage(this.uptime)}% of the fight`}

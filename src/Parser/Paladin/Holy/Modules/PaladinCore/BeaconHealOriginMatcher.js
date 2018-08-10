@@ -1,4 +1,4 @@
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 
 import Analyzer from 'Parser/Core/Analyzer';
 import Combatants from 'Parser/Core/Modules/Combatants';
@@ -20,7 +20,7 @@ class BeaconHealOriginMatcher extends Analyzer {
   healBacklog = [];
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.BEACON_OF_LIGHT_HEAL.id) {
+    if (spellId === SPELLS.BEACON_OF_LIGHT_HEAL) {
       this.processBeaconHealing(event);
       return;
     }
@@ -139,7 +139,7 @@ class BeaconHealOriginMatcher extends Analyzer {
     // What happens here are 2 situations:
     // - Light of Dawn applies Light's Embrace, it acts a bit weird though since the FIRST heal from the cast does NOT get the increased beacon transfer, while all sebsequent heals do (even when the combatlog has't fired the Light's Embrace applybuff event yet). The first part checks for that. The combatlog looks different when the first heal is a self heal vs they're all on other people, but in both cases it always doesn't apply to the first LoD heal and does for all subsequent ones.
     // - If a FoL or something else is cast right before the LoD, the beacon transfer may be delayed until after the Light's Embrace is applied. This beacon transfer does not appear to benefit. My hypothesis is that the server does healing and buffs async and there's a small lag between the processes, and I think 50ms should be about the time required.
-    const hasLightsEmbrace = (healEvent.ability.guid === SPELLS.LIGHT_OF_DAWN_HEAL.id && healEvent.lightOfDawnHealIndex > 0) || this.selectedCombatant.hasBuff(SPELLS.LIGHTS_EMBRACE_BUFF.id, null, 0, 100);
+    const hasLightsEmbrace = (healEvent.ability.guid === SPELLS.LIGHT_OF_DAWN_HEAL && healEvent.lightOfDawnHealIndex > 0) || this.selectedCombatant.hasBuff(SPELLS.LIGHTS_EMBRACE_BUFF, null, 0, 100);
     if (hasLightsEmbrace) {
       beaconFactor += 0.4;
     }
@@ -159,7 +159,7 @@ class BeaconHealOriginMatcher extends Analyzer {
     const healTargetId = healEvent.targetID;
     const healCombatant = this.combatants.players[healTargetId];
     if (healCombatant) {
-      if (healCombatant.hasBuff(SPELLS.VAMPIRIC_BLOOD.id, healEvent.timestamp)) {
+      if (healCombatant.hasBuff(SPELLS.VAMPIRIC_BLOOD, healEvent.timestamp)) {
         raw /= 1.3;
       }
     }

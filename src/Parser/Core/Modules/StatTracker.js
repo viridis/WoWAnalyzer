@@ -1,4 +1,6 @@
 import SPELLS from 'common/SPELLS';
+import PROTECTION_PALADIN_SPELLS from 'Parser/Paladin/Protection/SPELLS';
+import getSpellName from 'common/getSpellName';
 import ITEMS from 'common/ITEMS';
 import { calculateSecondaryStatDefault, calculatePrimaryStat } from 'common/stats';
 import { formatMilliseconds } from 'common/format';
@@ -216,7 +218,7 @@ class StatTracker extends Analyzer {
     // endregion
 
     // region Paladin
-    [SPELLS.SERAPHIM_TALENT.id]: { crit: 249, haste: 249, mastery: 249, versatility: 249 },
+    [PROTECTION_PALADIN_SPELLS.SERAPHIM_TALENT]: { crit: 249, haste: 249, mastery: 249, versatility: 249 },
     // endregion
     
     // region Monk
@@ -637,7 +639,7 @@ class StatTracker extends Analyzer {
       // ignore prepull buff application, as they're already accounted for in combatantinfo
       // we have to check the stacks count because Entities incorrectly copies the prepull property onto changes and removal following the application
       if (event.oldStacks === 0 && event.prepull) {
-        debug && console.log(`StatTracker prepull application IGNORED for ${SPELLS[spellId] ? SPELLS[spellId].name : spellId}`);
+        debug && console.log(`StatTracker prepull application IGNORED for ${getSpellName(spellId)}`);
         return;
       }
 
@@ -645,7 +647,7 @@ class StatTracker extends Analyzer {
       const delta = this._changeStats(statBuff, event.newStacks - event.oldStacks);
       const after = Object.assign({}, this._currentStats);
       this._triggerChangeStats(event, before, delta, after);
-      debug && console.log(`StatTracker: (${event.oldStacks} -> ${event.newStacks}) ${SPELLS[spellId] ? SPELLS[spellId].name : spellId} @ ${formatMilliseconds(this.owner.fightDuration)} - Change: ${this._statPrint(delta)}`);
+      debug && console.log(`StatTracker: (${event.oldStacks} -> ${event.newStacks}) ${getSpellName(spellId)} @ ${formatMilliseconds(this.owner.fightDuration)} - Change: ${this._statPrint(delta)}`);
       debug && this._debugPrintStats(this._currentStats);
     }
   }

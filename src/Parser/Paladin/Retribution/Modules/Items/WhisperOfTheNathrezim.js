@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import SpellLink from 'common/SpellLink';
 import ItemLink from 'common/ItemLink';
@@ -31,21 +31,21 @@ class WhisperOfTheNathrezim extends Analyzer {
 
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.TEMPLARS_VERDICT.id || spellId === SPELLS.DIVINE_STORM.id) {
+    if (spellId === SPELLS.TEMPLARS_VERDICT || spellId === SPELLS.DIVINE_STORM) {
       this.totalSpenders++;
     }
   }
 
   on_byPlayer_damage(event) {
     const spellId = event.ability.guid;
-    if (!this.selectedCombatant.hasBuff(SPELLS.WHISPER_OF_THE_NATHREZIM_BUFF.id)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.WHISPER_OF_THE_NATHREZIM_BUFF)) {
       return;
     }
-    if (spellId === SPELLS.TEMPLARS_VERDICT_DAMAGE.id) {
+    if (spellId === SPELLS.TEMPLARS_VERDICT_DAMAGE) {
       this.spendersInsideBuff++;
       this.damageDone += calculateEffectiveDamage(event, WHISPER_OF_THE_NATHREZIM_MODIFIER);
     }
-    else if (spellId === SPELLS.DIVINE_STORM_DAMAGE.id) {
+    else if (spellId === SPELLS.DIVINE_STORM_DAMAGE) {
       this.damageDone += calculateEffectiveDamage(event, WHISPER_OF_THE_NATHREZIM_MODIFIER);
       if (this.isNewDivineStormCast(event.timestamp)) {
         this.spendersInsideBuff++;
@@ -82,7 +82,7 @@ class WhisperOfTheNathrezim extends Analyzer {
 
   suggestions(when) {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) => {
-      return suggest(<React.Fragment>Your usage of <ItemLink id={ITEMS.WHISPER_OF_THE_NATHREZIM.id} icon /> can be improved. Make sure to save up five holy power before your next <SpellLink id={SPELLS.JUDGMENT_CAST.id} icon /> window to get more time on the buff.</React.Fragment>)
+      return suggest(<React.Fragment>Your usage of <ItemLink id={ITEMS.WHISPER_OF_THE_NATHREZIM.id} icon /> can be improved. Make sure to save up five holy power before your next <SpellLink id={SPELLS.JUDGMENT_CAST} icon /> window to get more time on the buff.</React.Fragment>)
         .icon(ITEMS.WHISPER_OF_THE_NATHREZIM.icon)
         .actual(`${formatPercentage(actual)}% of spenders with the buff`)
         .recommended(`>${formatPercentage(recommended)}% is recommended`);

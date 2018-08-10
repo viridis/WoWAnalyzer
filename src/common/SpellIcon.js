@@ -1,24 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SPELLS from './SPELLS';
+import getSpellName from 'common/getSpellName';
+import getSpellIcon from 'common/getSpellIcon';
+
 import SpellLink from './SpellLink';
 import Icon from './Icon';
 
 const SpellIcon = ({ id, noLink, alt, ...others }) => {
-  if (process.env.NODE_ENV === 'development' && !SPELLS[id]) {
-    throw new Error(`Unknown spell: ${id}`);
-  }
-
-  const spell = SPELLS[id] || {
-    name: 'Spell not recognized',
-    icon: 'inv_misc_questionmark',
-  };
-
   const icon = (
     <Icon
-      icon={spell.icon}
-      alt={alt !== '' ? spell.name : ''}
+      icon={getSpellIcon(id)}
+      alt={alt !== '' ? getSpellName(id) : ''}
       {...others}
     />
   );

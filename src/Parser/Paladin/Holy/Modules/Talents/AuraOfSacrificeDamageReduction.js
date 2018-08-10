@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import fetchWcl from 'common/fetchWclApi';
 import SpellIcon from 'common/SpellIcon';
 import { formatThousands, formatNumber, formatPercentage } from 'common/format';
@@ -44,7 +44,7 @@ class AuraOfSacrificeDamageReduction extends Analyzer {
     // Include any damage while selected player has AM, and is above the health requirement,
     // and the damage isn't to him (because AoS transfers it to the Paladin, so he doesn't gain any DR)
     // and the mitigation percentage is greater than 29% (because health events are logged slower than damage events, and the game properly tracks this realtime, some events may slip through while we're <75% so we need to use this to reduce the false positives. We use DR-1% to account for rounding)
-    return `(IN RANGE FROM target.name='${playerName}' AND type='applybuff' AND ability.id=${SPELLS.AURA_MASTERY.id} TO target.name='${playerName}' AND type='removebuff' AND ability.id=${SPELLS.AURA_MASTERY.id} END)
+    return `(IN RANGE FROM target.name='${playerName}' AND type='applybuff' AND ability.id=${SPELLS.AURA_MASTERY} TO target.name='${playerName}' AND type='removebuff' AND ability.id=${SPELLS.AURA_MASTERY} END)
       AND (IN RANGE FROM target.name='${playerName}' AND resources.hpPercent>=${AURA_OF_SACRIFICE_HEALTH_REQUIREMENT * 100} TO target.name='${playerName}' AND resources.hpPercent<${AURA_OF_SACRIFICE_HEALTH_REQUIREMENT * 100} END)
       AND target.name!='${playerName}'
       AND (mitigatedDamage/rawDamage*100)>${AURA_OF_SACRIFICE_ACTIVE_DAMAGE_TRANSFER * 100 - 1}`;
@@ -52,7 +52,7 @@ class AuraOfSacrificeDamageReduction extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.AURA_OF_SACRIFICE_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.AURA_OF_SACRIFICE_TALENT);
     if (!this.active) {
       return;
     }
@@ -71,7 +71,7 @@ class AuraOfSacrificeDamageReduction extends Analyzer {
 
   handlePassiveTransfer(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.AURA_OF_SACRIFICE_TRANSFER.id) {
+    if (spellId !== SPELLS.AURA_OF_SACRIFICE_TRANSFER) {
       return;
     }
 
@@ -95,7 +95,7 @@ class AuraOfSacrificeDamageReduction extends Analyzer {
   isTransferring = false;
   on_toPlayer_applybuff(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.AURA_MASTERY.id) {
+    if (spellId !== SPELLS.AURA_MASTERY) {
       return;
     }
     this.isAuraMasteryActive = true;
@@ -104,7 +104,7 @@ class AuraOfSacrificeDamageReduction extends Analyzer {
   }
   on_byPlayer_removebuff(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.AURA_MASTERY.id) {
+    if (spellId !== SPELLS.AURA_MASTERY) {
       return;
     }
     this.isAuraMasteryActive = false;
@@ -206,7 +206,7 @@ class AuraOfSacrificeDamageReduction extends Analyzer {
       <LazyLoadStatisticBox
         position={STATISTIC_ORDER.OPTIONAL(60)}
         loader={this.load.bind(this)}
-        icon={<SpellIcon id={SPELLS.AURA_OF_SACRIFICE_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.AURA_OF_SACRIFICE_TALENT} />}
         value={`≈${formatNumber(this.drps)} DRPS`}
         label="Damage reduced"
         tooltip={tooltip}

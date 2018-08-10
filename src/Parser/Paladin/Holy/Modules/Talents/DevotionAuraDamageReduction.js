@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import fetchWcl from 'common/fetchWclApi';
 import SpellIcon from 'common/SpellIcon';
 import { formatThousands, formatNumber } from 'common/format';
@@ -56,7 +56,7 @@ class DevotionAuraDamageReduction extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.DEVOTION_AURA_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.DEVOTION_AURA_TALENT);
   }
 
   on_toPlayer_damage(event) {
@@ -65,7 +65,7 @@ class DevotionAuraDamageReduction extends Analyzer {
       return;
     }
 
-    const isAuraMasteryActive = this.selectedCombatant.hasBuff(SPELLS.AURA_MASTERY.id, event.timestamp, 0, 0, this.owner.playerId);
+    const isAuraMasteryActive = this.selectedCombatant.hasBuff(SPELLS.AURA_MASTERY, event.timestamp, 0, 0, this.owner.playerId);
     if (!isAuraMasteryActive) {
       const damageTaken = event.amount + (event.absorbed || 0);
       const damageReduced = damageTaken / (1 - this.totalPassiveDamageReduction) * this.totalPassiveDamageReduction;
@@ -82,7 +82,7 @@ class DevotionAuraDamageReduction extends Analyzer {
   }
   isApplicableBuffEvent(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.DEVOTION_AURA_BUFF.id) {
+    if (spellId !== SPELLS.DEVOTION_AURA_BUFF) {
       return false;
     }
     if (this.owner.toPlayer(event)) {
@@ -117,7 +117,7 @@ class DevotionAuraDamageReduction extends Analyzer {
   }
 
   get auraMasteryUptimeFilter() {
-    const buffHistory = this.selectedCombatant.getBuffHistory(SPELLS.AURA_MASTERY.id, this.owner.playerId);
+    const buffHistory = this.selectedCombatant.getBuffHistory(SPELLS.AURA_MASTERY, this.owner.playerId);
     if (buffHistory.length === 0) {
       return null;
     }
@@ -128,7 +128,7 @@ class DevotionAuraDamageReduction extends Analyzer {
     const playerName = this.owner.player.name;
     // Include any damage while selected player has AM, and is above the health requirement,
     // and the mitigation percentage is greater than 19% (we use this to reduce the false positives. We use DR-1% to account for rounding)
-    return `(IN RANGE FROM target.name='${playerName}' AND type='applybuff' AND ability.id=${SPELLS.AURA_MASTERY.id} TO target.name='${playerName}' AND type='removebuff' AND ability.id=${SPELLS.AURA_MASTERY.id} END)
+    return `(IN RANGE FROM target.name='${playerName}' AND type='applybuff' AND ability.id=${SPELLS.AURA_MASTERY} TO target.name='${playerName}' AND type='removebuff' AND ability.id=${SPELLS.AURA_MASTERY} END)
       AND (mitigatedDamage/rawDamage*100)>${DEVOTION_AURA_ACTIVE_DAMAGE_REDUCTION * 100 - 1}`;
   }
 
@@ -159,7 +159,7 @@ class DevotionAuraDamageReduction extends Analyzer {
       <LazyLoadStatisticBox
         position={STATISTIC_ORDER.OPTIONAL(60)}
         loader={this.load.bind(this)}
-        icon={<SpellIcon id={SPELLS.DEVOTION_AURA_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.DEVOTION_AURA_TALENT} />}
         value={`≈${formatNumber(this.totalDrps)} DRPS`}
         label="Estimated damage reduced"
         tooltip={tooltip}

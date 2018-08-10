@@ -1,6 +1,6 @@
-import SPELLS from 'common/SPELLS';
-
 import EventsNormalizer from 'Parser/Core/EventsNormalizer';
+
+import SPELLS from '../SPELLS';
 
 // the max delay between the heal and cast events never looks to be more than this.
 const MAX_DELAY = 100; // XdVPajNB8vpJkyCF/16-Mythic+Antoran+High+Command+-+Kill+(7:17)/177/events has one of 83ms
@@ -16,7 +16,7 @@ class LightOfDawn extends EventsNormalizer {
     events.forEach((event, eventIndex) => {
       fixedEvents.push(event);
 
-      if (event.type === 'cast' && event.ability.guid === SPELLS.LIGHT_OF_DAWN_CAST.id) {
+      if (event.type === 'cast' && event.ability.guid === SPELLS.LIGHT_OF_DAWN_CAST) {
         const castTimestamp = event.timestamp;
 
         // Loop through the event history in reverse to detect if there was a `heal` event on the same player that was the result of this cast and thus misordered
@@ -25,7 +25,7 @@ class LightOfDawn extends EventsNormalizer {
           if ((castTimestamp - previousEvent.timestamp) > MAX_DELAY) {
             break;
           }
-          if (previousEvent.type === 'heal' && previousEvent.ability.guid === SPELLS.LIGHT_OF_DAWN_HEAL.id && previousEvent.sourceID === event.sourceID) {
+          if (previousEvent.type === 'heal' && previousEvent.ability.guid === SPELLS.LIGHT_OF_DAWN_HEAL && previousEvent.sourceID === event.sourceID) {
             fixedEvents.splice(previousEventIndex, 1);
             fixedEvents.push(previousEvent);
             previousEvent.__modified = true;

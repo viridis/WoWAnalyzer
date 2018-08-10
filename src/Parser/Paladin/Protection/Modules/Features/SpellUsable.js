@@ -1,4 +1,4 @@
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import CoreSpellUsable from 'Parser/Core/Modules/SpellUsable';
 import HIT_TYPES from 'Parser/Core/HIT_TYPES';
 
@@ -9,7 +9,7 @@ class SpellUsable extends CoreSpellUsable {
 
   constructor(...args) {
     super(...args);
-    this.hasCrusadersJudgment = this.selectedCombatant.hasTalent(SPELLS.CRUSADERS_JUDGMENT_TALENT.id);
+    this.hasCrusadersJudgment = this.selectedCombatant.hasTalent(SPELLS.CRUSADERS_JUDGMENT_TALENT);
   }
 
   lastPotentialTriggerForAvengersShield = null;
@@ -20,11 +20,11 @@ class SpellUsable extends CoreSpellUsable {
     }
 
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.HAMMER_OF_THE_RIGHTEOUS.id || spellId === SPELLS.BLESSED_HAMMER_TALENT.id) {
+    if (spellId === SPELLS.HAMMER_OF_THE_RIGHTEOUS || spellId === SPELLS.BLESSED_HAMMER_TALENT) {
       this.lastPotentialTriggerForAvengersShield = event;
-    } else if (spellId === SPELLS.AVENGERS_SHIELD.id) {
+    } else if (spellId === SPELLS.AVENGERS_SHIELD) {
       this.lastPotentialTriggerForAvengersShield = null;
-    } else if (spellId === SPELLS.JUDGMENT_CAST_PROTECTION.id) {
+    } else if (spellId === SPELLS.JUDGMENT_CAST_PROTECTION) {
       this.lastPotentialTriggerForJudgment = null;
     }
   }
@@ -40,11 +40,11 @@ class SpellUsable extends CoreSpellUsable {
   }
 
   beginCooldown(spellId, timestamp) {
-    if (spellId === SPELLS.AVENGERS_SHIELD.id) {
+    if (spellId === SPELLS.AVENGERS_SHIELD) {
       if (this.isOnCooldown(spellId)) {
         this.endCooldown(spellId, undefined, this.lastPotentialTriggerForAvengersShield ? this.lastPotentialTriggerForAvengersShield.timestamp : undefined);
       }
-    } else if (this.hasCrusadersJudgment && spellId === SPELLS.JUDGMENT_CAST_PROTECTION.id) {
+    } else if (this.hasCrusadersJudgment && spellId === SPELLS.JUDGMENT_CAST_PROTECTION) {
       if (this.isOnCooldown(spellId)) {
         this.endCooldown(spellId, undefined, this.lastPotentialTriggerForJudgment ? this.lastPotentialTriggerForJudgment.timestamp : undefined);
       }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import Analyzer from 'Parser/Core/Analyzer';
 import { formatNumber } from 'common/format';
@@ -23,7 +23,7 @@ class PillarsOfInmostLight extends Analyzer {
 
 	on_byPlayer_damage(event) {
 		const spellId = event.ability.guid;
-		if (spellId !== SPELLS.EYE_OF_TYR.id) {
+		if (spellId !== SPELLS.EYE_OF_TYR) {
 			return;
 		}
 		this.damageDone += calculateEffectiveDamage(event, PILLARS_OF_INMOST_LIGHT_MODIFIER);

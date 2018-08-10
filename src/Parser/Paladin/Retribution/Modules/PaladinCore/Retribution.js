@@ -2,7 +2,7 @@ import React from 'react';
 
 import Analyzer from 'Parser/Core/Analyzer';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import { formatNumber, formatPercentage } from 'common/format';
 import StatisticBox, { STATISTIC_ORDER } from 'Interface/Others/StatisticBox';
@@ -18,12 +18,12 @@ class Retribution extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.abilitiesAffectedByRetribution.push(SPELLS.MELEE.id);
+    this.abilitiesAffectedByRetribution.push(SPELLS.MELEE);
   }
 
   on_byPlayer_damage(event) {
     const spellId = event.ability.guid;
-    if (!this.selectedCombatant.hasBuff(SPELLS.RETRIBUTION_BUFF.id) || !this.abilitiesAffectedByRetribution.includes(spellId)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.RETRIBUTION_BUFF) || !this.abilitiesAffectedByRetribution.includes(spellId)) {
       return;
     }
     this.bonusDmg += calculateEffectiveDamage(event, RETRIBUTION_DAMAGE_BONUS);
@@ -36,7 +36,7 @@ class Retribution extends Analyzer {
   statistic() {
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.RETRIBUTION_BUFF.id} />}
+        icon={<SpellIcon id={SPELLS.RETRIBUTION_BUFF} />}
         value={`${formatNumber(this.bonusDmg / this.owner.fightDuration * 1000)} DPS`}
         label="Damage contributed"
         tooltip={`Retribution contributed ${formatNumber(this.bonusDmg)} total damage (${formatPercentage(this.owner.getPercentageOfTotalDamageDone(this.bonusDmg))} %).`}

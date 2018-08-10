@@ -1,7 +1,7 @@
 import React from 'react';
 import { Doughnut as DoughnutChart } from 'react-chartjs-2';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
 import { formatPercentage } from 'common/format';
 import Analyzer from 'Parser/Core/Analyzer';
@@ -20,7 +20,7 @@ class CastBehavior extends Analyzer {
   };
 
   get iolProcsPerHolyShockCrit() {
-    return this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF.id) ? 2 : 1;
+    return this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T19_4SET_BONUS_BUFF) ? 2 : 1;
   }
 
   legend(items, total) {
@@ -98,11 +98,11 @@ class CastBehavior extends Analyzer {
     const abilityTracker = this.abilityTracker;
     const getAbility = spellId => abilityTracker.getAbility(spellId);
 
-    const flashOfLight = getAbility(SPELLS.FLASH_OF_LIGHT.id);
-    const holyLight = getAbility(SPELLS.HOLY_LIGHT.id);
-    const holyShockCast = getAbility(SPELLS.HOLY_SHOCK_CAST.id);
-    const holyShockHeal = getAbility(SPELLS.HOLY_SHOCK_HEAL.id);
-    const holyShockDamage = getAbility(SPELLS.HOLY_SHOCK_DAMAGE.id);
+    const flashOfLight = getAbility(SPELLS.FLASH_OF_LIGHT);
+    const holyLight = getAbility(SPELLS.HOLY_LIGHT);
+    const holyShockCast = getAbility(SPELLS.HOLY_SHOCK_CAST);
+    const holyShockHeal = getAbility(SPELLS.HOLY_SHOCK_HEAL);
+    const holyShockDamage = getAbility(SPELLS.HOLY_SHOCK_DAMAGE);
 
     const iolFlashOfLights = flashOfLight.healingIolHits || 0;
     const iolHolyLights = holyLight.healingIolHits || 0;
@@ -118,13 +118,13 @@ class CastBehavior extends Analyzer {
       {
         color: '#ecd1b6',
         label: 'Flash of Light',
-        spellId: SPELLS.FLASH_OF_LIGHT.id,
+        spellId: SPELLS.FLASH_OF_LIGHT,
         value: iolFlashOfLights,
       },
       {
         color: '#ff7d0a',
         label: 'Holy Light',
-        spellId: SPELLS.HOLY_LIGHT.id,
+        spellId: SPELLS.HOLY_LIGHT,
         value: iolHolyLights,
       },
       {
@@ -151,8 +151,8 @@ class CastBehavior extends Analyzer {
     const abilityTracker = this.abilityTracker;
     const getAbility = spellId => abilityTracker.getAbility(spellId);
 
-    const flashOfLight = getAbility(SPELLS.FLASH_OF_LIGHT.id);
-    const holyLight = getAbility(SPELLS.HOLY_LIGHT.id);
+    const flashOfLight = getAbility(SPELLS.FLASH_OF_LIGHT);
+    const holyLight = getAbility(SPELLS.HOLY_LIGHT);
 
     const iolFlashOfLights = flashOfLight.healingIolHits || 0;
     const iolHolyLights = holyLight.healingIolHits || 0;
@@ -167,13 +167,13 @@ class CastBehavior extends Analyzer {
       {
         color: '#ecd1b6',
         label: 'Flash of Light',
-        spellId: SPELLS.FLASH_OF_LIGHT.id,
+        spellId: SPELLS.FLASH_OF_LIGHT,
         value: fillerFlashOfLights,
       },
       {
         color: '#ff7d0a',
         label: 'Holy Light',
-        spellId: SPELLS.HOLY_LIGHT.id,
+        spellId: SPELLS.HOLY_LIGHT,
         value: fillerHolyLights,
       },
     ];
@@ -196,7 +196,7 @@ class CastBehavior extends Analyzer {
         <div className="col-lg-3 col-md-4 col-sm-6 col-xs-12">
           <div className="row">
             <StatisticsListBox
-              title={<React.Fragment><SpellLink id={SPELLS.INFUSION_OF_LIGHT.id}>Infusion of Light</SpellLink> usage</React.Fragment>}
+              title={<React.Fragment><SpellLink id={SPELLS.INFUSION_OF_LIGHT}>Infusion of Light</SpellLink> usage</React.Fragment>}
               containerProps={{ className: 'col-xs-12' }}
             >
               {this.iolCastRatioChart()}

@@ -1,4 +1,4 @@
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 
 import CoreCooldownThroughputTracker, { BUILT_IN_SUMMARY_TYPES } from 'Parser/Core/Modules/CooldownThroughputTracker';
 

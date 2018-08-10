@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
-
+import getSpellIcon from 'common/getSpellIcon';
 import Analyzer from 'Parser/Core/Analyzer';
 import SpellUsable from 'Parser/Core/Modules/SpellUsable';
 
@@ -30,7 +30,7 @@ class FillerFlashOfLight extends Analyzer {
   _isCurrentCastInefficient = false;
   on_byPlayer_begincast(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.FLASH_OF_LIGHT.id) {
+    if (spellId !== SPELLS.FLASH_OF_LIGHT) {
       return;
     }
     if (this._isInefficientCastEvent(event)) {
@@ -43,15 +43,15 @@ class FillerFlashOfLight extends Analyzer {
   _isInefficientCastEvent(event) {
     // If there is a lot of healing to be done in short window of time using your IoL proc before casting HS makes sense.
     // The `-1` buffer time is to properly handle chain-casting and IoL buffs; when chain casting the first FoL will consume the IoL buff on the `cast` event and that exact same frame will have the `begincast` event. Because `hasBuff` looks at the timestamp rather than event order, it would otherwise include the buff.
-    const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT.id, event.timestamp, -1);
+    const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT, event.timestamp, -1);
     if (hasIol) {
       return false;
     }
 
-    const hasHolyShockAvailable = this.spellUsable.isAvailable(SPELLS.HOLY_SHOCK_CAST.id);
+    const hasHolyShockAvailable = this.spellUsable.isAvailable(SPELLS.HOLY_SHOCK_CAST);
     if (!hasHolyShockAvailable) {
       // We can't cast it, but check how long until it comes off cooldown. We should wait instead of casting a filler if it becomes available really soon.
-      const cooldownRemaining = this.spellUsable.cooldownRemaining(SPELLS.HOLY_SHOCK_CAST.id);
+      const cooldownRemaining = this.spellUsable.cooldownRemaining(SPELLS.HOLY_SHOCK_CAST);
       if (cooldownRemaining > HOLY_SHOCK_COOLDOWN_WAIT_TIME) {
         return false;
       }
@@ -64,7 +64,7 @@ class FillerFlashOfLight extends Analyzer {
    */
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.FLASH_OF_LIGHT.id) {
+    if (spellId !== SPELLS.FLASH_OF_LIGHT) {
       return;
     }
     if (this._isCurrentCastInefficient) {
@@ -94,10 +94,10 @@ class FillerFlashOfLight extends Analyzer {
     when(this.suggestionThresholds).addSuggestion((suggest, actual) => {
       return suggest(
         <React.Fragment>
-          You started casting {this.inefficientCasts.length} filler <SpellLink id={SPELLS.FLASH_OF_LIGHT.id} />s while <SpellLink id={SPELLS.HOLY_SHOCK_CAST.id} /> was <dfn data-tip={`It was either already available or going to be available within ${HOLY_SHOCK_COOLDOWN_WAIT_TIME}ms.`}>available</dfn> (at {this.inefficientCasts.map(event => this.owner.formatTimestamp(event.timestamp)).join(', ')}). <SpellLink id={SPELLS.HOLY_SHOCK_CAST.id} /> is a much more efficient spell and should be prioritized<dfn data-tip="There are very rare exceptions to this. For example it may be worth saving Holy Shock when you know you're going to be moving soon and you may have to heal yourself.">*</dfn>.
+          You started casting {this.inefficientCasts.length} filler <SpellLink id={SPELLS.FLASH_OF_LIGHT} />s while <SpellLink id={SPELLS.HOLY_SHOCK_CAST} /> was <dfn data-tip={`It was either already available or going to be available within ${HOLY_SHOCK_COOLDOWN_WAIT_TIME}ms.`}>available</dfn> (at {this.inefficientCasts.map(event => this.owner.formatTimestamp(event.timestamp)).join(', ')}). <SpellLink id={SPELLS.HOLY_SHOCK_CAST} /> is a much more efficient spell and should be prioritized<dfn data-tip="There are very rare exceptions to this. For example it may be worth saving Holy Shock when you know you're going to be moving soon and you may have to heal yourself.">*</dfn>.
         </React.Fragment>
       )
-        .icon(SPELLS.FLASH_OF_LIGHT.icon)
+        .icon(getSpellIcon(SPELLS.FLASH_OF_LIGHT))
         .actual(`${this.inefficientCasts.length} casts while Holy Shock was available`)
         .recommended(`No inefficient casts is recommended`);
     });

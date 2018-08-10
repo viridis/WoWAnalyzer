@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import getSpellName from 'common/getSpellName';
 import TooltipProvider from 'Interface/common/TooltipProvider';
 
-import SPELLS from './SPELLS';
 import SpellIcon from './SpellIcon';
 
 class SpellLink extends React.PureComponent {
@@ -30,10 +30,6 @@ class SpellLink extends React.PureComponent {
   render() {
     const { id, children, category = undefined, icon, iconStyle, ...other } = this.props;
 
-    if (process.env.NODE_ENV === 'development' && !children && !SPELLS[id]) {
-      throw new Error(`Unknown spell: ${id}`);
-    }
-
     return (
       <a
         href={TooltipProvider.spell(id)}
@@ -46,7 +42,7 @@ class SpellLink extends React.PureComponent {
         {...other}
       >
         {icon && <SpellIcon id={id} noLink style={iconStyle} alt="" />}{' '}
-        {children || (SPELLS[id] ? SPELLS[id].name : `Unknown spell: ${id}`)}
+        {children || (getSpellName(id))}
       </a>
     );
   }

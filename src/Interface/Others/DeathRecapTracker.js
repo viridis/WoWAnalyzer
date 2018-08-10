@@ -40,8 +40,8 @@ class DeathRecapTracker extends Analyzer {
       && ability.enabled === true
     ));
     //add additional defensive buffs/debuffs to common/DEFENSIVE_BUFFS
-    DEFENSIVE_BUFFS.forEach(e => this.buffs.push({ id: e.spell.id }));
-    this.cooldowns.forEach(e => this.buffs.push({ id: e.buffSpellId || e.primarySpell.id }));
+    DEFENSIVE_BUFFS.forEach(e => this.buffs.push({ id: e.spell }));
+    this.cooldowns.forEach(e => this.buffs.push({ id: e.buffSpellId || e.primarySpell }));
   }
 
   addEvent(event) {
@@ -49,15 +49,15 @@ class DeathRecapTracker extends Analyzer {
     extendedEvent.time = event.timestamp - this.owner.fight.start_time;
 
     const cooldownsOnly = this.cooldowns.filter(e => e.cooldown);
-    extendedEvent.defensiveCooldowns = cooldownsOnly.map(e => ({ id: e.primarySpell.id, cooldownReady: this.spellUsable.isAvailable(e.primarySpell.id) }));
+    extendedEvent.defensiveCooldowns = cooldownsOnly.map(e => ({ id: e.primarySpell, cooldownReady: this.spellUsable.isAvailable(e.primarySpell) }));
     if (event.hitPoints > 0) {
-      this.lastBuffs = this.buffs.filter(e => {
-        const buff = this.selectedCombatant.getBuff(e.id);
+      this.lastBuffs = this.buffs.filter(spell => {
+        const buff = this.selectedCombatant.getBuff(spell);
         const hasBuff = buff !== undefined;
         if (!hasBuff) {
           return false;
         }
-        if (e.id === SPELLS.BLESSING_OF_SACRIFICE.id) {
+        if (spell === SPELLS.BLESSING_OF_SACRIFICE) {
           return buff.sourceID === this.selectedCombatant.id;
         }
         return true;
@@ -66,7 +66,7 @@ class DeathRecapTracker extends Analyzer {
     extendedEvent.buffsUp = this.lastBuffs;
 
     if (!event.sourceIsFriendly && this.enemies.enemies[event.sourceID]) {
-      const sourceHasDebuff = debuff => (!debuff.end || event.timestamp <= debuff.end) && event.timestamp >= debuff.start && debuff.isDebuff && this.buffs.some(e => e.id === debuff.ability.guid);
+      const sourceHasDebuff = debuff => (!debuff.end || event.timestamp <= debuff.end) && event.timestamp >= debuff.start && debuff.isDebuff && this.buffs.some(e => e === debuff.ability.guid);
       extendedEvent.debuffsUp = this.enemies.enemies[event.sourceID].buffs.filter(sourceHasDebuff)
         .map(e => ({ id: e.ability.guid }));
     }

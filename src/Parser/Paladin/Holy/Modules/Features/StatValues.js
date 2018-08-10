@@ -1,4 +1,4 @@
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 
 import HIT_TYPES from 'Parser/Core/HIT_TYPES';
 import BaseHealerStatValues from 'Parser/Core/Modules/Features/BaseHealerStatValues';
@@ -31,7 +31,7 @@ class StatValues extends BaseHealerStatValues {
   spellInfo = SPELL_INFO;
 
   on_heal(event) {
-    if (event.ability.guid === SPELLS.BEACON_OF_LIGHT_HEAL.id) {
+    if (event.ability.guid === SPELLS.BEACON_OF_LIGHT_HEAL) {
       // Handle this via the `on_beacon_heal` event
       return;
     }
@@ -49,11 +49,11 @@ class StatValues extends BaseHealerStatValues {
     // eslint-disable-next-line prefer-const
     let { baseCritChance, ratingCritChance } = super._getCritChance(event);
 
-    if (this.selectedCombatant.hasBuff(SPELLS.AVENGING_WRATH.id)) {
+    if (this.selectedCombatant.hasBuff(SPELLS.AVENGING_WRATH)) {
       // Avenging Wrath increases the crit chance by 30%, this 30% does not add to the rating contribution since it's unaffected by stats.
       baseCritChance += 0.3;
     }
-    if (spellId === SPELLS.HOLY_SHOCK_HEAL.id) {
+    if (spellId === SPELLS.HOLY_SHOCK_HEAL) {
       // Holy Shock has a base 30% crit chance
       baseCritChance += 0.3;
     }
@@ -69,15 +69,15 @@ class StatValues extends BaseHealerStatValues {
   }
   _criticalStrikeInfusionOfLightProcs(event, healVal) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.FLASH_OF_LIGHT.id && spellId !== SPELLS.HOLY_LIGHT.id) {
+    if (spellId !== SPELLS.FLASH_OF_LIGHT && spellId !== SPELLS.HOLY_LIGHT) {
       return 0;
     }
-    const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT.id, event.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
+    const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT, event.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
     if (!hasIol) {
       return 0;
     }
 
-    if (spellId === SPELLS.FLASH_OF_LIGHT.id) {
+    if (spellId === SPELLS.FLASH_OF_LIGHT) {
       const regularHeal = healVal.raw / (1 + INFUSION_OF_LIGHT_FOL_HEALING_INCREASE);
       const effectiveIolHealing = Math.max(0, healVal.effective - regularHeal);
 
@@ -92,7 +92,7 @@ class StatValues extends BaseHealerStatValues {
 
       return effectiveIolHealing * ratingCritChanceContribution / this.statTracker.currentCritRating;
     }
-    if (spellId === SPELLS.HOLY_LIGHT.id) {
+    if (spellId === SPELLS.HOLY_LIGHT) {
       // TODO: We might be able to use the Haste stat value to value the CDR
       return 0;
     }

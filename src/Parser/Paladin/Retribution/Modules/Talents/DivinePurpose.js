@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import SpellIcon from 'common/SpellIcon';
 import { formatNumber } from 'common/format';
@@ -14,21 +14,21 @@ class DivinePurpose extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    const hasDivinePurpose = this.selectedCombatant.hasTalent(SPELLS.DIVINE_PURPOSE_TALENT_RETRIBUTION.id);
+    const hasDivinePurpose = this.selectedCombatant.hasTalent(SPELLS.DIVINE_PURPOSE_TALENT_RETRIBUTION);
     const hasSoulOfTheHighlord = this.selectedCombatant.hasFinger(ITEMS.SOUL_OF_THE_HIGHLORD.id);
     this.active = hasDivinePurpose || hasSoulOfTheHighlord;
   }
 
   on_byPlayer_applybuff(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.DIVINE_PURPOSE_BUFF.id) {
+    if (spellId === SPELLS.DIVINE_PURPOSE_BUFF) {
       this.divinePurposeProcs++;
     }
   }
 
   on_byPlayer_refreshbuff(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.DIVINE_PURPOSE_BUFF.id) {
+    if (spellId === SPELLS.DIVINE_PURPOSE_BUFF) {
       this.divinePurposeProcs++;
     }
   }
@@ -36,7 +36,7 @@ class DivinePurpose extends Analyzer {
   statistic() {
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.DIVINE_PURPOSE_TALENT_RETRIBUTION.id} />}
+        icon={<SpellIcon id={SPELLS.DIVINE_PURPOSE_TALENT_RETRIBUTION} />}
         value={`${formatNumber(this.divinePurposeProcs)}`}
         label="Divine Purpose procs"
       />

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import SpellLink from 'common/SpellLink';
+import getSpellIcon from 'common/getSpellIcon';
 import { formatPercentage } from 'common/format';
-
 import Analyzer from 'Parser/Core/Analyzer';
 import SpellHistory from 'Parser/Core/Modules/SpellHistory';
 
@@ -35,7 +35,7 @@ class CastEfficiency extends Analyzer {
    * Only works on spells entered into CastEfficiency list.
    */
   _getCooldownInfo(ability) {
-    const mainSpellId = ability.primarySpell.id;
+    const mainSpellId = ability.primarySpell;
     const history = this.spellHistory.historyBySpellId[mainSpellId];
     if (!history) { // spell either never been cast, or not in abilities list
       return {
@@ -82,7 +82,7 @@ class CastEfficiency extends Analyzer {
   }
 
   _getTimeSpentCasting(ability){
-    const mainSpellId = ability.primarySpell.id;
+    const mainSpellId = ability.primarySpell;
     const history = this.spellHistory.historyBySpellId[mainSpellId];
     if (!history) { // spell either never been cast, or not in abilities list
       return 0;
@@ -110,7 +110,7 @@ class CastEfficiency extends Analyzer {
    * Time spent waiting for a GCD that reset the cooldown of the spell to finish
    */
   _getTimeWaitingOnGCD(ability){
-    const mainSpellId = ability.primarySpell.id;
+    const mainSpellId = ability.primarySpell;
     const history = this.spellHistory.historyBySpellId[mainSpellId];
     if (!history) { // spell either never been cast, or not in abilities list
       return 0;
@@ -141,7 +141,7 @@ class CastEfficiency extends Analyzer {
     return ability ? this.getCastEfficiencyForAbility(ability) : null;
   }
   getCastEfficiencyForAbility(ability) {
-    const spellId = ability.primarySpell.id;
+    const spellId = ability.primarySpell;
     const availableFightDuration = this.owner.fightDuration;
 
     const cooldown = ability.castEfficiency.disabled ? null : ability.cooldown;
@@ -241,10 +241,10 @@ class CastEfficiency extends Analyzer {
       when(suggestionThresholds).addSuggestion((suggest, actual, recommended) => {
         return suggest(
           <React.Fragment>
-            Try to cast <SpellLink id={mainSpell.id} /> more often. {ability.castEfficiency.extraSuggestion || ''}
+            Try to cast <SpellLink id={mainSpell} /> more often. {ability.castEfficiency.extraSuggestion || ''}
           </React.Fragment>
         )
-          .icon(mainSpell.icon)
+          .icon(getSpellIcon(mainSpell))
           .actual(`${abilityInfo.casts} out of ${abilityInfo.maxCasts} possible casts. You kept it on cooldown ${formatPercentage(actual, 1)}% of the time.`)
           .recommended(`>${formatPercentage(recommended, 1)}% is recommended`)
           .staticImportance(ability.castEfficiency.importance);

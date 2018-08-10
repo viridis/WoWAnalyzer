@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import fetchWcl from 'common/fetchWclApi';
 import SpellIcon from 'common/SpellIcon';
 import Analyzer from 'Parser/Core/Analyzer';
@@ -30,7 +30,7 @@ class AuraOfSacrificeLivesSaved extends Analyzer {
   livesSaved = 0;
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.AURA_OF_SACRIFICE_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.AURA_OF_SACRIFICE_TALENT);
   }
 
   on_toPlayer_damage(event) {
@@ -39,7 +39,7 @@ class AuraOfSacrificeLivesSaved extends Analyzer {
       return;
     }
 
-    const isAuraMasteryActive = this.selectedCombatant.hasBuff(SPELLS.AURA_MASTERY.id, event.timestamp, 0, 0, this.owner.playerId);
+    const isAuraMasteryActive = this.selectedCombatant.hasBuff(SPELLS.AURA_MASTERY, event.timestamp, 0, 0, this.owner.playerId);
     if (!isAuraMasteryActive) {
       // TODO: Check for dropping below 3% health
     }
@@ -84,7 +84,7 @@ class AuraOfSacrificeLivesSaved extends Analyzer {
       <LazyLoadStatisticBox
         position={STATISTIC_ORDER.OPTIONAL(60)}
         loader={this.load.bind(this)}
-        icon={<SpellIcon id={SPELLS.AURA_OF_SACRIFICE_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.AURA_OF_SACRIFICE_TALENT} />}
         value={`≈${this.livesSaved}`}
         label="Lives saved"
         tooltip={tooltip}

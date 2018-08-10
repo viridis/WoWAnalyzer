@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import ItemLink from 'common/ItemLink';
 import { formatNumber, formatPercentage } from 'common/format';
@@ -19,7 +19,7 @@ class LiadrinsFuryUnleashed extends Analyzer {
   }
 
   get liadrinsHP() {
-    return this.holyPowerTracker.buildersObj[SPELLS.LIADRINS_FURY_UNLEASHED_BUFF.id];
+    return this.holyPowerTracker.buildersObj[SPELLS.LIADRINS_FURY_UNLEASHED_BUFF];
   }
 
   get holyPowerGenerated() {

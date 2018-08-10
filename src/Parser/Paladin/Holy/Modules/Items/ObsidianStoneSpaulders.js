@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ITEMS from 'common/ITEMS';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import Analyzer from 'Parser/Core/Analyzer';
 import ItemHealingDone from 'Interface/Others/ItemHealingDone';
 
@@ -15,7 +15,7 @@ class ObsidianStoneSpaulders extends Analyzer {
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.OBSIDIAN_STONE_SPAULDERS_HEAL.id) {
+    if (spellId === SPELLS.OBSIDIAN_STONE_SPAULDERS_HEAL) {
       this.healing += event.amount;
     }
   }

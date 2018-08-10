@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ITEMS from 'common/ITEMS';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
 import ItemLink from 'common/ItemLink';
 import { formatPercentage } from 'common/format';
@@ -26,7 +26,7 @@ class Ilterendi extends Analyzer {
     if (!ABILITIES_AFFECTED_BY_HEALING_INCREASES.includes(spellId)) {
       return;
     }
-    if (!this.selectedCombatant.hasBuff(SPELLS.ILTERENDI_BUFF.id, event.timestamp)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.ILTERENDI_BUFF, event.timestamp)) {
       return;
     }
 
@@ -55,7 +55,7 @@ class Ilterendi extends Analyzer {
   }
   suggestions(when) {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) => {
-      return suggest(<React.Fragment>Your usage of <ItemLink id={ITEMS.ILTERENDI_CROWN_JEWEL_OF_SILVERMOON.id} /> can be improved. Try to line up <SpellLink id={SPELLS.LIGHT_OF_DAWN_CAST.id} /> and <SpellLink id={SPELLS.HOLY_SHOCK_CAST.id} /> with the buff or consider using an easier legendary.</React.Fragment>)
+      return suggest(<React.Fragment>Your usage of <ItemLink id={ITEMS.ILTERENDI_CROWN_JEWEL_OF_SILVERMOON.id} /> can be improved. Try to line up <SpellLink id={SPELLS.LIGHT_OF_DAWN_CAST} /> and <SpellLink id={SPELLS.HOLY_SHOCK_CAST} /> with the buff or consider using an easier legendary.</React.Fragment>)
         .icon(ITEMS.ILTERENDI_CROWN_JEWEL_OF_SILVERMOON.icon)
         .actual(`${formatPercentage(actual)}% healing contributed`)
         .recommended(`>${formatPercentage(recommended)}% is recommended`);

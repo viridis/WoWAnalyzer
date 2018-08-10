@@ -1,4 +1,6 @@
 import SPELLS from 'common/SPELLS';
+import HOLY_PALADIN_SPELLS from 'Parser/Paladin/Holy/SPELLS';
+import getSpellName from 'common/getSpellName';
 import ITEMS from 'common/ITEMS';
 import { formatMilliseconds, formatPercentage } from 'common/format';
 
@@ -19,7 +21,7 @@ class Haste extends Analyzer {
   /* eslint-disable no-useless-computed-key */
   static HASTE_BUFFS = {
     ...BLOODLUST_BUFFS,
-    [SPELLS.HOLY_AVENGER_TALENT.id]: 0.3,
+    [HOLY_PALADIN_SPELLS.HOLY_AVENGER_TALENT]: 0.3,
     [SPELLS.BERSERKING.id]: 0.15,
     [SPELLS.WARLOCK_AFFLI_T20_4P_BUFF.id]: 0.1,
     [SPELLS.WARLOCK_DEMO_T20_4P_BUFF.id]: 0.1,
@@ -116,7 +118,7 @@ class Haste extends Analyzer {
     if (haste) {
       this._applyHasteLoss(event, haste);
 
-      debug && console.log(`Haste: Current haste: ${formatPercentage(this.current)}% (lost ${formatPercentage(haste)}% from ${SPELLS[spellId] ? SPELLS[spellId].name : spellId})`);
+      debug && console.log(`Haste: Current haste: ${formatPercentage(this.current)}% (lost ${formatPercentage(haste)}% from ${getSpellName(spellId)})`);
     } else {
       debug && console.warn(formatMilliseconds(this.owner.fightDuration), 'Haste: Removed not recognized buff:', event.ability.name);
     }
@@ -152,7 +154,7 @@ class Haste extends Analyzer {
 
       this._setHaste(event, newHastePercentage);
 
-      debug && console.log(`Haste: Current haste: ${formatPercentage(this.current)}% (gained ${formatPercentage(haste * event.stacksGained)}% from ${SPELLS[spellId] ? SPELLS[spellId].name : spellId})`);
+      debug && console.log(`Haste: Current haste: ${formatPercentage(this.current)}% (gained ${formatPercentage(haste * event.stacksGained)}% from ${getSpellName(spellId)})`);
     }
   }
   _getHastePerStackGain(spellId) {

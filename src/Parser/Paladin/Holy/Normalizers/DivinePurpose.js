@@ -1,6 +1,6 @@
-import SPELLS from 'common/SPELLS';
-
 import EventsNormalizer from 'Parser/Core/EventsNormalizer';
+
+import SPELLS from '../SPELLS';
 
 // the max delay between the heal and cast events never looks to be more than this.
 const MAX_DELAY = 100;
@@ -18,13 +18,13 @@ class DivinePurpose extends EventsNormalizer {
         return;
       }
       const spellId = event.ability.guid;
-      if (spellId !== SPELLS.HOLY_SHOCK_CAST.id && spellId !== SPELLS.LIGHT_OF_DAWN_CAST.id) {
+      if (spellId !== SPELLS.HOLY_SHOCK_CAST && spellId !== SPELLS.LIGHT_OF_DAWN_CAST) {
         return;
       }
 
       const castTimestamp = event.timestamp;
 
-      const buffId = spellId === SPELLS.HOLY_SHOCK_CAST.id ? SPELLS.DIVINE_PURPOSE_HOLY_SHOCK_BUFF.id : SPELLS.DIVINE_PURPOSE_LIGHT_OF_DAWN_BUFF.id;
+      const buffId = spellId === SPELLS.HOLY_SHOCK_CAST ? SPELLS.DIVINE_PURPOSE_HOLY_SHOCK_BUFF : SPELLS.DIVINE_PURPOSE_LIGHT_OF_DAWN_BUFF;
 
       /**
        * Fix 1: Divine Purpose procs sometimes are logged before the cast that trigger it. This makes dealing with it harder, so reorder it.

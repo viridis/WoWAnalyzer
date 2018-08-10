@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import SpellLink from 'common/SpellLink';
 import Analyzer from 'Parser/Core/Analyzer';
@@ -11,9 +11,9 @@ import ItemHealingDone from 'Interface/Others/ItemHealingDone';
 const BASE_HEALING_PERCENTAGE = 1.0;
 const PURITY_OF_LIGHT_CRITICAL_HEALING_INCREASE = 1.0;
 const PURITY_OF_LIGHT_AFFECTED_HEALS = [
-  SPELLS.FLASH_OF_LIGHT.id,
-  SPELLS.HOLY_LIGHT.id,
-  SPELLS.LIGHT_OF_DAWN_HEAL.id,
+  SPELLS.FLASH_OF_LIGHT,
+  SPELLS.HOLY_LIGHT,
+  SPELLS.LIGHT_OF_DAWN_HEAL,
 ];
 
 /**
@@ -27,7 +27,7 @@ class Tier21_4set extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF.id);
+    this.active = this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF);
 
     if (this.active) {
       this.critEffectBonus.hook(this.getCritEffectBonus.bind(this));
@@ -88,7 +88,7 @@ class Tier21_4set extends Analyzer {
     if (!PURITY_OF_LIGHT_AFFECTED_HEALS.includes(spellId)) {
       return false;
     }
-    if (!this.selectedCombatant.hasBuff(SPELLS.PURITY_OF_LIGHT.id, event.timestamp)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.PURITY_OF_LIGHT, event.timestamp)) {
       return false;
     }
     if (event.hitType !== HIT_TYPES.CRIT) {
@@ -99,9 +99,9 @@ class Tier21_4set extends Analyzer {
 
   item() {
     return {
-      id: `spell-${SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF.id}`,
-      icon: <SpellIcon id={SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF.id} />,
-      title: <SpellLink id={SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF.id} icon={false} />,
+      id: `spell-${SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF}`,
+      icon: <SpellIcon id={SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF} />,
+      title: <SpellLink id={SPELLS.HOLY_PALADIN_T21_4SET_BONUS_BUFF} icon={false} />,
       result: <ItemHealingDone amount={this.healing} />,
     };
   }

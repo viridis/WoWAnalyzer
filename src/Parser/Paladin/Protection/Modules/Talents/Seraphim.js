@@ -1,5 +1,5 @@
 import React from 'react';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import Analyzer from 'Parser/Core/Analyzer';
 import StatisticBox, { STATISTIC_ORDER } from 'Interface/Others/StatisticBox';
@@ -19,29 +19,29 @@ class Seraphim extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.SERAPHIM_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.SERAPHIM_TALENT);
   }
 
   on_byPlayer_cast(event) {
-    if (event.ability.guid !== SPELLS.SERAPHIM_TALENT.id) {
+    if (event.ability.guid !== SPELLS.SERAPHIM_TALENT) {
       return;
     }
    
     //should end up always with 0 charges when cast with <2 charges (seraphim can consume charges that are not fully recharges)
     //proper tracking of SotR charges used by seraphim only possible once SotR charges are 100% accurate
-    this.spellUsable.beginCooldown(SPELLS.SHIELD_OF_THE_RIGHTEOUS.id, event.timestamp);
-    this.spellUsable.beginCooldown(SPELLS.SHIELD_OF_THE_RIGHTEOUS.id, event.timestamp);
+    this.spellUsable.beginCooldown(SPELLS.SHIELD_OF_THE_RIGHTEOUS, event.timestamp);
+    this.spellUsable.beginCooldown(SPELLS.SHIELD_OF_THE_RIGHTEOUS, event.timestamp);
   }
 
   get uptime() {
-    return this.selectedCombatant.getBuffUptime(SPELLS.SERAPHIM_TALENT.id) / this.owner.fightDuration;
+    return this.selectedCombatant.getBuffUptime(SPELLS.SERAPHIM_TALENT) / this.owner.fightDuration;
   }
 
   statistic() {
 
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.SERAPHIM_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.SERAPHIM_TALENT} />}
         value={`${ formatPercentage(this.uptime) }%`}
         label="Seraphim uptime"
         tooltip={`Resulting in an average stat increase of ${ (SERAPHIM_STAT_BUFF * this.uptime).toFixed(0) } Haste, Critical Strike, Mastery, and Versatility`}

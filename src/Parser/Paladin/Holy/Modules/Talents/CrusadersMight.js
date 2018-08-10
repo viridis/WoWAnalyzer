@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 
 import Analyzer from 'Parser/Core/Analyzer';
@@ -22,26 +22,26 @@ class CrusadersMight extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasTalent(SPELLS.CRUSADERS_MIGHT_TALENT.id);
+    this.active = this.selectedCombatant.hasTalent(SPELLS.CRUSADERS_MIGHT_TALENT);
   }
 
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.CRUSADER_STRIKE.id) {
+    if (spellId !== SPELLS.CRUSADER_STRIKE) {
       return;
     }
 
-    const holyShockisOnCooldown = this.spellUsable.isOnCooldown(SPELLS.HOLY_SHOCK_CAST.id);
+    const holyShockisOnCooldown = this.spellUsable.isOnCooldown(SPELLS.HOLY_SHOCK_CAST);
     if (holyShockisOnCooldown) {
-      const reductionMs = this.spellUsable.reduceCooldown(SPELLS.HOLY_SHOCK_CAST.id, COOLDOWN_REDUCTION_MS);
+      const reductionMs = this.spellUsable.reduceCooldown(SPELLS.HOLY_SHOCK_CAST, COOLDOWN_REDUCTION_MS);
       this.effectiveHolyShockReductionMs += reductionMs;
       this.wastedHolyShockReductionMs += COOLDOWN_REDUCTION_MS - reductionMs;
     } else {
       this.wastedHolyShockReductionMs += COOLDOWN_REDUCTION_MS;
     }
-    const lightOfDawnisOnCooldown = this.spellUsable.isOnCooldown(SPELLS.LIGHT_OF_DAWN_CAST.id);
+    const lightOfDawnisOnCooldown = this.spellUsable.isOnCooldown(SPELLS.LIGHT_OF_DAWN_CAST);
     if (lightOfDawnisOnCooldown) {
-      const reductionMs = this.spellUsable.reduceCooldown(SPELLS.LIGHT_OF_DAWN_CAST.id, COOLDOWN_REDUCTION_MS);
+      const reductionMs = this.spellUsable.reduceCooldown(SPELLS.LIGHT_OF_DAWN_CAST, COOLDOWN_REDUCTION_MS);
       this.effectiveLightOfDawnReductionMs += reductionMs;
       this.wastedLightOfDawnReductionMs += COOLDOWN_REDUCTION_MS - reductionMs;
     } else {
@@ -53,12 +53,12 @@ class CrusadersMight extends Analyzer {
     return (
       <StatisticBox
         position={STATISTIC_ORDER.OPTIONAL(75)}
-        icon={<SpellIcon id={SPELLS.CRUSADERS_MIGHT_TALENT.id} />}
+        icon={<SpellIcon id={SPELLS.CRUSADERS_MIGHT_TALENT} />}
         value={(
           <span style={{ fontSize: '75%' }}>
             {(this.effectiveHolyShockReductionMs / 1000).toFixed(1)}s{' '}
             <SpellIcon
-              id={SPELLS.HOLY_SHOCK_CAST.id}
+              id={SPELLS.HOLY_SHOCK_CAST}
               style={{
                 height: '1.3em',
                 marginTop: '-.1em',
@@ -67,7 +67,7 @@ class CrusadersMight extends Analyzer {
             {' '}
             {(this.effectiveLightOfDawnReductionMs / 1000).toFixed(1)}s{' '}
             <SpellIcon
-              id={SPELLS.LIGHT_OF_DAWN_CAST.id}
+              id={SPELLS.LIGHT_OF_DAWN_CAST}
               style={{
                 height: '1.3em',
                 marginTop: '-.1em',

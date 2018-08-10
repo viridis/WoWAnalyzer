@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import { formatMilliseconds } from 'common/format';
 import Analyzer from 'Parser/Core/Analyzer';
@@ -25,10 +25,10 @@ class MaraadsDyingBreath extends Analyzer {
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.LIGHT_OF_THE_MARTYR.id) {
+    if (spellId !== SPELLS.LIGHT_OF_THE_MARTYR) {
       return;
     }
-    if (!this.selectedCombatant.hasBuff(SPELLS.MARAADS_DYING_BREATH_BUFF.id, event.timestamp)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.MARAADS_DYING_BREATH_BUFF, event.timestamp)) {
       debug && console.warn(formatMilliseconds(event.timestamp - this.owner.fight.start_time), 'Maraads: LotM without buff', event);
       return;
     }
@@ -38,7 +38,7 @@ class MaraadsDyingBreath extends Analyzer {
   }
   on_toPlayer_removebuff(event) {
     const buffId = event.ability.guid;
-    if (buffId !== SPELLS.MARAADS_DYING_BREATH_BUFF.id) {
+    if (buffId !== SPELLS.MARAADS_DYING_BREATH_BUFF) {
       return;
     }
     if (!this._lastHeal) {
@@ -48,7 +48,7 @@ class MaraadsDyingBreath extends Analyzer {
 
     // In the case of Maraad's Dying Breath each LotM consumes the stacks of the buff remaining. So this event is only called once per buffed LotM. When the buff is removed it first calls a `removebuffstack` that removes all additional stacks from the buff before it calls a `removebuff`, `removebuffstack` is the only way we can find the amount of stacks it had.
     const heal = this._lastHeal;
-    const buff = this.selectedCombatant.getBuff(SPELLS.MARAADS_DYING_BREATH_BUFF.id, heal.timestamp);
+    const buff = this.selectedCombatant.getBuff(SPELLS.MARAADS_DYING_BREATH_BUFF, heal.timestamp);
     const stacks = buff && buff.stacks ? (buff.stacks + 1) : 1;
 
     debug && console.log(formatMilliseconds(event.timestamp - this.owner.fight.start_time), 'Maraads: Stacks at LotM heal:', stacks, event);
@@ -74,7 +74,7 @@ class MaraadsDyingBreath extends Analyzer {
   }
   on_beacon_heal(event) {
     const spellId = event.originalHeal.ability.guid;
-    if (spellId !== SPELLS.LIGHT_OF_THE_MARTYR.id) {
+    if (spellId !== SPELLS.LIGHT_OF_THE_MARTYR) {
       return;
     }
     // Without Maraad's LotM doesn't beacon transfer, so the entire heal counts towards Maraad's bonus.
@@ -83,7 +83,7 @@ class MaraadsDyingBreath extends Analyzer {
     this.totalHealing += healing;
     this.healingGainOverLotm += healing;
 
-    const buff = this.selectedCombatant.getBuff(SPELLS.MARAADS_DYING_BREATH_BUFF.id, event.originalHeal.timestamp);
+    const buff = this.selectedCombatant.getBuff(SPELLS.MARAADS_DYING_BREATH_BUFF, event.originalHeal.timestamp);
     const stacks = buff && buff.stacks ? (buff.stacks + 1) : 1;
 
     debug && console.log(formatMilliseconds(event.timestamp - this.owner.fight.start_time), 'Maraads: beacon transfer: Stacks at LotM heal:', stacks);
@@ -94,10 +94,10 @@ class MaraadsDyingBreath extends Analyzer {
   // Maraad's doesn't increase damage taken, so we can ignore that part
   on_toPlayer_damage(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.LIGHT_OF_THE_MARTYR_DAMAGE_TAKEN.id) {
+    if (spellId !== SPELLS.LIGHT_OF_THE_MARTYR_DAMAGE_TAKEN) {
       return;
     }
-    if (!this.selectedCombatant.hasBuff(SPELLS.MARAADS_DYING_BREATH_BUFF.id, event.timestamp)) {
+    if (!this.selectedCombatant.hasBuff(SPELLS.MARAADS_DYING_BREATH_BUFF, event.timestamp)) {
       return;
     }
 

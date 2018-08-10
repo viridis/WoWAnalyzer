@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import Analyzer from 'Parser/Core/Analyzer';
 import calculateEffectiveDamage from 'Parser/Core/calculateEffectiveDamage';
@@ -29,7 +29,7 @@ class TyelcaFerrenMarcussStature extends Analyzer {
 
 	on_byPlayer_cast(event) {
 		const spellId = event.ability.guid;
-		if (spellId !== SPELLS.AVENGERS_SHIELD.id) {
+		if (spellId !== SPELLS.AVENGERS_SHIELD) {
 			return;
 		}
 		this.targetsHit = 0;
@@ -37,7 +37,7 @@ class TyelcaFerrenMarcussStature extends Analyzer {
 
 	on_byPlayer_damage(event) {
 		const spellId = event.ability.guid;
-		if (spellId !== SPELLS.AVENGERS_SHIELD.id) {
+		if (spellId !== SPELLS.AVENGERS_SHIELD) {
 			return;
 		}
 		if(this.targetsHit > AVENGERS_SHIELD_JUMPS + TYELCA_EXTRA_JUMPS) {
@@ -57,7 +57,7 @@ class TyelcaFerrenMarcussStature extends Analyzer {
 
 	on_byPlayer_absorbed(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.BULWARK_OF_ORDER_SHIELD.id) {
+    if (spellId !== SPELLS.BULWARK_OF_ORDER_SHIELD) {
       return;
     }
     this.healingDone += calculateEffectiveHealing(event, TYELCA_MODIFIER);

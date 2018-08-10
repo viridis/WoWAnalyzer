@@ -1,4 +1,4 @@
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import CoreCooldownThroughputTracker, { BUILT_IN_SUMMARY_TYPES } from 'Parser/Core/Modules/CooldownThroughputTracker';
 
 class CooldownThroughputTracker extends CoreCooldownThroughputTracker {
@@ -26,7 +26,7 @@ class CooldownThroughputTracker extends CoreCooldownThroughputTracker {
   
   static ignoredSpells = [
     ...CooldownThroughputTracker.ignoredSpells,
-    SPELLS.UMBRAL_GLAIVE_STORM_TICK.id,
+    SPELLS.UMBRAL_GLAIVE_STORM_TICK,
   ];
 }
 

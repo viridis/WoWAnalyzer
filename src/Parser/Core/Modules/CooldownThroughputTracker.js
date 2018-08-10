@@ -50,7 +50,7 @@ class CooldownThroughputTracker extends Analyzer {
 
   on_toPlayer_applybuff(event) {
     const spellId = event.ability.guid;
-    const cooldownSpell = this.constructor.cooldownSpells.find(cooldownSpell => cooldownSpell.spell.id === spellId);
+    const cooldownSpell = this.constructor.cooldownSpells.find(cooldownSpell => cooldownSpell.spell === spellId);
     if (!cooldownSpell) {
       return;
     }
@@ -70,7 +70,7 @@ class CooldownThroughputTracker extends Analyzer {
   }
   on_toPlayer_removebuff(event) {
     const spellId = event.ability.guid;
-    const index = this.activeCooldowns.findIndex(cooldown => cooldown.spell.id === spellId);
+    const index = this.activeCooldowns.findIndex(cooldown => cooldown.spell === spellId);
     if (index === -1) {
       return;
     }

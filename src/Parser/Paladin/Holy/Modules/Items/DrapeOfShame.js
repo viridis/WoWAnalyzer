@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import HIT_TYPES from 'Parser/Core/HIT_TYPES';
 import CoreDrapeOfShame, { DRAPE_OF_SHAME_CRIT_EFFECT } from 'Parser/Core/Modules/Items/Legion/DrapeOfShame';
@@ -38,14 +38,14 @@ class DrapeOfShame extends CoreDrapeOfShame {
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if (!this.owner.constructor.abilitiesAffectedByHealingIncreases.includes(spellId) || spellId === SPELLS.BEACON_OF_LIGHT_HEAL.id) {
+    if (!this.owner.constructor.abilitiesAffectedByHealingIncreases.includes(spellId) || spellId === SPELLS.BEACON_OF_LIGHT_HEAL) {
       return;
     }
     super.on_byPlayer_heal(event);
   }
   on_beacon_heal(event) {
     const spellId = event.originalHeal.ability.guid;
-    if (!this.owner.constructor.abilitiesAffectedByHealingIncreases.includes(spellId) || spellId === SPELLS.BEACON_OF_LIGHT_HEAL.id) {
+    if (!this.owner.constructor.abilitiesAffectedByHealingIncreases.includes(spellId) || spellId === SPELLS.BEACON_OF_LIGHT_HEAL) {
       return;
     }
     if (event.originalHeal.hitType !== HIT_TYPES.CRIT) {

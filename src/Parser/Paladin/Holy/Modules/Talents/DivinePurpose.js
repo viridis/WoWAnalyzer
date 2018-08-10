@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import ITEMS from 'common/ITEMS';
 import SpellIcon from 'common/SpellIcon';
 import { formatPercentage } from 'common/format';
@@ -19,7 +19,7 @@ class DivinePurpose extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    const hasDivinePurpose = this.selectedCombatant.hasTalent(SPELLS.DIVINE_PURPOSE_TALENT_HOLY.id);
+    const hasDivinePurpose = this.selectedCombatant.hasTalent(SPELLS.DIVINE_PURPOSE_TALENT_HOLY);
     const hasSoulOfTheHighlord = this.selectedCombatant.hasFinger(ITEMS.SOUL_OF_THE_HIGHLORD.id);
     this.active = hasDivinePurpose || hasSoulOfTheHighlord;
   }
@@ -34,16 +34,16 @@ class DivinePurpose extends Analyzer {
   lightOfDawnProcs = 0;
   handleProc(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.DIVINE_PURPOSE_HOLY_SHOCK_BUFF.id) {
+    if (spellId === SPELLS.DIVINE_PURPOSE_HOLY_SHOCK_BUFF) {
       this.holyShockProcs += 1;
-      if (this.spellUsable.isOnCooldown(SPELLS.HOLY_SHOCK_CAST.id)) {
-        this.spellUsable.endCooldown(SPELLS.HOLY_SHOCK_CAST.id);
+      if (this.spellUsable.isOnCooldown(SPELLS.HOLY_SHOCK_CAST)) {
+        this.spellUsable.endCooldown(SPELLS.HOLY_SHOCK_CAST);
       }
     }
-    if (spellId === SPELLS.DIVINE_PURPOSE_LIGHT_OF_DAWN_BUFF.id) {
+    if (spellId === SPELLS.DIVINE_PURPOSE_LIGHT_OF_DAWN_BUFF) {
       this.lightOfDawnProcs += 1;
-      if (this.spellUsable.isOnCooldown(SPELLS.LIGHT_OF_DAWN_CAST.id)) {
-        this.spellUsable.endCooldown(SPELLS.LIGHT_OF_DAWN_CAST.id);
+      if (this.spellUsable.isOnCooldown(SPELLS.LIGHT_OF_DAWN_CAST)) {
+        this.spellUsable.endCooldown(SPELLS.LIGHT_OF_DAWN_CAST);
       }
     }
   }
@@ -52,8 +52,8 @@ class DivinePurpose extends Analyzer {
     const abilityTracker = this.abilityTracker;
     const getAbility = spellId => abilityTracker.getAbility(spellId);
 
-    const lightOfDawnCast = getAbility(SPELLS.LIGHT_OF_DAWN_CAST.id);
-    const holyShockHeal = getAbility(SPELLS.HOLY_SHOCK_HEAL.id);
+    const lightOfDawnCast = getAbility(SPELLS.LIGHT_OF_DAWN_CAST);
+    const holyShockHeal = getAbility(SPELLS.HOLY_SHOCK_HEAL);
 
     const lightOfDawnHeals = lightOfDawnCast.casts || 0;
     const holyShockHeals = holyShockHeal.healingHits || 0;
@@ -61,12 +61,12 @@ class DivinePurpose extends Analyzer {
     return (
       <StatisticBox
         position={STATISTIC_ORDER.OPTIONAL(75)}
-        icon={<SpellIcon id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY.id} />}
+        icon={<SpellIcon id={SPELLS.DIVINE_PURPOSE_TALENT_HOLY} />}
         value={(
           <span>
             {this.holyShockProcs}{' '}
             <SpellIcon
-              id={SPELLS.HOLY_SHOCK_CAST.id}
+              id={SPELLS.HOLY_SHOCK_CAST}
               style={{
                 height: '1.3em',
                 marginTop: '-.1em',
@@ -75,7 +75,7 @@ class DivinePurpose extends Analyzer {
             {' '}
             {this.lightOfDawnProcs}{' '}
             <SpellIcon
-              id={SPELLS.LIGHT_OF_DAWN_CAST.id}
+              id={SPELLS.LIGHT_OF_DAWN_CAST}
               style={{
                 height: '1.3em',
                 marginTop: '-.1em',

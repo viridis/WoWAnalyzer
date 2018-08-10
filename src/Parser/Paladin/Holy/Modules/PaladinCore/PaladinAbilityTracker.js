@@ -1,4 +1,4 @@
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 
 import AbilityTracker from 'Parser/Core/Modules/AbilityTracker';
 
@@ -19,8 +19,8 @@ class PaladinAbilityTracker extends AbilityTracker {
     const spellId = event.ability.guid;
     const cast = this.getAbility(spellId, event.ability);
 
-    if (spellId === SPELLS.FLASH_OF_LIGHT.id || spellId === SPELLS.HOLY_LIGHT.id) {
-      const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT.id, event.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
+    if (spellId === SPELLS.FLASH_OF_LIGHT || spellId === SPELLS.HOLY_LIGHT) {
+      const hasIol = this.selectedCombatant.hasBuff(SPELLS.INFUSION_OF_LIGHT, event.timestamp, INFUSION_OF_LIGHT_BUFF_EXPIRATION_BUFFER, INFUSION_OF_LIGHT_BUFF_MINIMAL_ACTIVE_TIME);
 
       if (hasIol) {
         cast.healingIolHits = (cast.healingIolHits || 0) + 1;

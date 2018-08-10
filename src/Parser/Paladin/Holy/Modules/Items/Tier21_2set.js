@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import SpellLink from 'common/SpellLink';
 import Analyzer from 'Parser/Core/Analyzer';
@@ -11,8 +11,8 @@ import { BEACON_TYPES, BASE_BEACON_TRANSFER, BEACON_OF_FAITH_TRANSFER_REDUCTION 
 
 const T21_2SET_BEACON_TRANSFER_INCREASE = 0.4;
 const T21_2SET_AFFECTED_HEALS = [
-  SPELLS.FLASH_OF_LIGHT.id,
-  SPELLS.HOLY_LIGHT.id,
+  SPELLS.FLASH_OF_LIGHT,
+  SPELLS.HOLY_LIGHT,
 ];
 
 /**
@@ -23,7 +23,7 @@ class Tier21_2set extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF.id);
+    this.active = this.selectedCombatant.hasBuff(SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF);
   }
 
   on_beacon_heal(event) {
@@ -69,9 +69,9 @@ class Tier21_2set extends Analyzer {
 
   item() {
     return {
-      id: `spell-${SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF.id}`,
-      icon: <SpellIcon id={SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF.id} />,
-      title: <SpellLink id={SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF.id} icon={false} />,
+      id: `spell-${SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF}`,
+      icon: <SpellIcon id={SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF} />,
+      title: <SpellLink id={SPELLS.HOLY_PALADIN_T21_2SET_BONUS_BUFF} icon={false} />,
       result: <ItemHealingDone amount={this.healing} />,
     };
   }

@@ -330,7 +330,7 @@ export default [
   },
   {
     date: new Date('2018-03-15'),
-    changes: <React.Fragment>Added Master of Combinations, Fury of Ashamane, <SpellLink id={SPELLS.STRENGTH_OF_THE_SKY.id} />, <SpellLink id={SPELLS.STRENGTH_OF_THE_SEA.id} /> and <SpellLink id={SPELLS.SERAPHIM_TALENT.id} /> to the stat tracker, slightly improving stat weights and any Haste based modules.</React.Fragment>,
+    changes: <React.Fragment>Added Master of Combinations, Fury of Ashamane, <SpellLink id={SPELLS.STRENGTH_OF_THE_SKY.id} />, <SpellLink id={SPELLS.STRENGTH_OF_THE_SEA.id} /> and <SpellLink id={152262/*Seraphim (Protection Paladin)*/} /> to the stat tracker, slightly improving stat weights and any Haste based modules.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {
@@ -380,7 +380,7 @@ export default [
   },
   {
     date: new Date('2018-01-15'),
-    changes: <React.Fragment>Fixed a bug where friendly fire damage (from for example the passive of <SpellLink id={SPELLS.AURA_OF_SACRIFICE_TALENT.id} />) would be included in the damage gain from <ItemLink id={ITEMS.GNAWED_THUMB_RING.id} />.</React.Fragment>,
+    changes: <React.Fragment>Fixed a bug where friendly fire damage (from for example the passive of <SpellLink id={183416/*Aura of Sacrifice (Holy Paladin)*/} />) would be included in the damage gain from <ItemLink id={ITEMS.GNAWED_THUMB_RING.id} />.</React.Fragment>,
     contributors: [Zerotorescue],
   },
   {

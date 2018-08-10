@@ -1,6 +1,6 @@
 import RESOURCE_TYPES from 'game/RESOURCE_TYPES';
 import ResourceTracker from 'Parser/Core/Modules/ResourceTracker/ResourceTracker';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 
 class HolyPowerTracker extends ResourceTracker {
 
@@ -14,7 +14,7 @@ class HolyPowerTracker extends ResourceTracker {
       return 0;
     }
     let cost = this.getResource(event).cost;
-    if(this.selectedCombatant.hasBuff(SPELLS.THE_FIRES_OF_JUSTICE_BUFF.id) || this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T21_4SET_BONUS_BUFF.id)) {
+    if(this.selectedCombatant.hasBuff(SPELLS.THE_FIRES_OF_JUSTICE_BUFF) || this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T21_4SET_BONUS_BUFF)) {
       cost = cost - 1;
     }
     return cost;

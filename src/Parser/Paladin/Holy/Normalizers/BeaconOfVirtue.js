@@ -1,6 +1,6 @@
-import SPELLS from 'common/SPELLS';
-
 import EventsNormalizer from 'Parser/Core/EventsNormalizer';
+
+import SPELLS from '../SPELLS';
 
 // the max delay between the cast and buff events never looks to be more than this, nor should it be possible to cast twice within this time. Actually it seems to always be the same frame, but accounting for a delay nonetheless.
 const MAX_DELAY = 100;
@@ -37,7 +37,7 @@ class BeaconOfVirtue extends EventsNormalizer {
       if (previousEvent.type !== 'cast' && previousEvent.type !== 'applybuff') {
         continue;
       }
-      if (previousEvent.ability.guid !== SPELLS.BEACON_OF_VIRTUE_TALENT.id) {
+      if (previousEvent.ability.guid !== SPELLS.BEACON_OF_VIRTUE_TALENT) {
         continue;
       }
       if (previousEvent.sourceID !== event.sourceID) {
@@ -52,7 +52,7 @@ class BeaconOfVirtue extends EventsNormalizer {
   normalize(events) {
     const fixedEvents = [];
     events.forEach((event, eventIndex) => {
-      if (event.type === 'applybuff' && event.ability.guid === SPELLS.BEACON_OF_VIRTUE_TALENT.id) {
+      if (event.type === 'applybuff' && event.ability.guid === SPELLS.BEACON_OF_VIRTUE_TALENT) {
         const lastBeaconOfVirtueCastIndex = this.findPreviousCast(fixedEvents, event);
 
         if (lastBeaconOfVirtueCastIndex !== null) {

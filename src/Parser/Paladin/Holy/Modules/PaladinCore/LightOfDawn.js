@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import Analyzer from 'Parser/Core/Analyzer';
 import StatisticBox, { STATISTIC_ORDER } from 'Interface/Others/StatisticBox';
@@ -11,7 +11,7 @@ class LightOfDawn extends Analyzer {
 
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.LIGHT_OF_DAWN_CAST.id) {
+    if (spellId !== SPELLS.LIGHT_OF_DAWN_CAST) {
       return;
     }
 
@@ -20,7 +20,7 @@ class LightOfDawn extends Analyzer {
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.LIGHT_OF_DAWN_HEAL.id) {
+    if (spellId !== SPELLS.LIGHT_OF_DAWN_HEAL) {
       return;
     }
 
@@ -30,7 +30,7 @@ class LightOfDawn extends Analyzer {
     return (
       <StatisticBox
         position={STATISTIC_ORDER.CORE(60)}
-        icon={<SpellIcon id={SPELLS.LIGHT_OF_DAWN_CAST.id} />}
+        icon={<SpellIcon id={SPELLS.LIGHT_OF_DAWN_CAST} />}
         value={`${((this.heals / this.casts) || 0).toFixed(2)} players`}
         label="Average hits per cast"
       />

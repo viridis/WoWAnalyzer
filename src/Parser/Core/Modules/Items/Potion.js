@@ -15,7 +15,6 @@ const COOLDOWN_MS = 60000; // one minute
  * args[3] = spell
  * args[4] = recommendedEfficiency
  */
-
 class Potion extends Analyzer {
   static dependencies = {
     abilities: Abilities,
@@ -46,7 +45,7 @@ class Potion extends Analyzer {
   }
 
   get spellId() {
-    return this.spells[0] ? this.abilities.getAbility(this.spells[0].id).primarySpell.id : this.abilities.getAbility(this.spells.id).primarySpell.id;
+    return this.spells[0] ? this.abilities.getAbility(this.spells[0]).primarySpell : this.abilities.getAbility(this.spells).primarySpell;
   }
 
   on_toPlayer_death(event) {

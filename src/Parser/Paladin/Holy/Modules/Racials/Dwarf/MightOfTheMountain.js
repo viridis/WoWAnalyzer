@@ -12,7 +12,7 @@ class MightOfTheMountain extends CoreMightOfTheMountain {
 
   on_byPlayer_heal(event) {
     const spellId = event.ability.guid;
-    if (spellId === SPELLS.BEACON_OF_LIGHT_HEAL.id) {
+    if (spellId === SPELLS.BEACON_OF_LIGHT_HEAL) {
       return;
     }
     super.on_byPlayer_heal(event);
@@ -22,7 +22,7 @@ class MightOfTheMountain extends CoreMightOfTheMountain {
       return;
     }
     const spellId = event.originalHeal.ability.guid;
-    if (spellId === SPELLS.BEACON_OF_LIGHT_HEAL.id) {
+    if (spellId === SPELLS.BEACON_OF_LIGHT_HEAL) {
       return;
     }
 

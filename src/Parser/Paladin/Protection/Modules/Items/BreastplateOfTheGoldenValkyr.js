@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ITEMS from 'common/ITEMS';
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
 import Analyzer from 'Parser/Core/Analyzer';
 import AbilityTracker from 'Parser/Core/Modules/AbilityTracker';
@@ -28,12 +28,12 @@ class BreatplateOfTheGoldenValkyr extends Analyzer {
   ancientKingsWasted = 0;
 
   on_byPlayer_damage(event) {
-    if (event.ability.guid !== SPELLS.AVENGERS_SHIELD.id) {
+    if (event.ability.guid !== SPELLS.AVENGERS_SHIELD) {
       return;
     }
 
-    if (this.spellUsable.isOnCooldown(SPELLS.GUARDIAN_OF_ANCIENT_KINGS.id)) {
-      const reduction = this.spellUsable.reduceCooldown(SPELLS.GUARDIAN_OF_ANCIENT_KINGS.id, REDUCTION_TIME_PER_HIT);
+    if (this.spellUsable.isOnCooldown(SPELLS.GUARDIAN_OF_ANCIENT_KINGS)) {
+      const reduction = this.spellUsable.reduceCooldown(SPELLS.GUARDIAN_OF_ANCIENT_KINGS, REDUCTION_TIME_PER_HIT);
       this.ancientKingsReduced += reduction;
       this.ancientKingsWasted += REDUCTION_TIME_PER_HIT - reduction;
     } else {
@@ -46,7 +46,7 @@ class BreatplateOfTheGoldenValkyr extends Analyzer {
       item: ITEMS.BREASTPLATE_OF_THE_GOLDEN_VALKYR,
       result: (
         <dfn data-tip={`Wasted ${ this.ancientKingsWasted / 1000 } possible seconds worth of cooldown reduction.`}>
-          <SpellLink id={SPELLS.GUARDIAN_OF_ANCIENT_KINGS.id} /> reduced by { this.ancientKingsReduced / 1000 }s
+          <SpellLink id={SPELLS.GUARDIAN_OF_ANCIENT_KINGS} /> reduced by { this.ancientKingsReduced / 1000 }s
         </dfn>
       ),
     };

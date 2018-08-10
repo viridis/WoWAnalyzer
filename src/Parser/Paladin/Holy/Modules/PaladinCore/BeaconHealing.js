@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import { formatPercentage } from 'common/format';
 
@@ -26,9 +26,9 @@ class BeaconHealing extends Analyzer {
     let castsOnBeacon = 0;
 
     this.abilities.activeAbilities
-      .filter(ability => BEACON_TRANSFERING_ABILITIES[ability.spell.id] !== undefined)
+      .filter(ability => BEACON_TRANSFERING_ABILITIES[ability.spell] !== undefined)
       .forEach(ability => {
-        const castCount = getCastCount(ability.spell.id);
+        const castCount = getCastCount(ability.spell);
         casts += castCount.healingHits || 0;
         castsOnBeacon += castCount.healingBeaconHits || 0;
       });
@@ -61,8 +61,8 @@ class BeaconHealing extends Analyzer {
     const abilityTracker = this.abilityTracker;
     const getAbility = spellId => abilityTracker.getAbility(spellId);
 
-    const flashOfLight = getAbility(SPELLS.FLASH_OF_LIGHT.id);
-    const holyLight = getAbility(SPELLS.HOLY_LIGHT.id);
+    const flashOfLight = getAbility(SPELLS.FLASH_OF_LIGHT);
+    const holyLight = getAbility(SPELLS.HOLY_LIGHT);
 
     const flashOfLightHeals = flashOfLight.casts || 0;
     const holyLightHeals = holyLight.casts || 0;

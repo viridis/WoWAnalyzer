@@ -1,8 +1,9 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellLink from 'common/SpellLink';
 import SpellIcon from 'common/SpellIcon';
+import getSpellIcon from 'common/getSpellIcon';
 import { formatPercentage } from 'common/format';
 import StatisticBox, { STATISTIC_ORDER } from 'Interface/Others/StatisticBox';
 import Combatants from 'Parser/Core/Modules/Combatants';
@@ -24,19 +25,19 @@ class AoWProcTracker extends Analyzer {
 
   on_byPlayer_applybuff(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.BLADE_OF_WRATH_PROC.id) {
+    if (spellId !== SPELLS.BLADE_OF_WRATH_PROC) {
       return;
     }
     this.totalAoWProcs += 1;
-    if (this.spellUsable.isOnCooldown(SPELLS.BLADE_OF_JUSTICE.id)) {
-      this.spellUsable.endCooldown(SPELLS.BLADE_OF_JUSTICE.id);
+    if (this.spellUsable.isOnCooldown(SPELLS.BLADE_OF_JUSTICE)) {
+      this.spellUsable.endCooldown(SPELLS.BLADE_OF_JUSTICE);
       this.lastAoWProcTime = event.timestamp;
     }
   }
 
   on_byPlayer_refreshbuff(event) {
     const spellId = event.ability.guid;
-    if (spellId !== SPELLS.BLADE_OF_WRATH_PROC.id) {
+    if (spellId !== SPELLS.BLADE_OF_WRATH_PROC) {
       return;
     }
     this.wastedAoWProcs += 1;
@@ -61,7 +62,7 @@ class AoWProcTracker extends Analyzer {
 
   on_byPlayer_cast(event) {
     const spellId = event.ability.guid;
-    if (SPELLS.BLADE_OF_JUSTICE.id !== spellId) {
+    if (SPELLS.BLADE_OF_JUSTICE !== spellId) {
       return;
     }
     if (this.lastAoWProcTime !== event.timestamp) {
@@ -78,8 +79,8 @@ class AoWProcTracker extends Analyzer {
 
   suggestions(when) {
     when(this.suggestionThresholds).addSuggestion((suggest, actual, recommended) => {
-      return suggest(<React.Fragment>You used {formatPercentage(this.consumedProcsPercent)}% of your <SpellLink id={SPELLS.ART_OF_WAR.id} icon /> procs</React.Fragment>)
-        .icon(SPELLS.ART_OF_WAR.icon)
+      return suggest(<React.Fragment>You used {formatPercentage(this.consumedProcsPercent)}% of your <SpellLink id={SPELLS.ART_OF_WAR} icon /> procs</React.Fragment>)
+        .icon(getSpellIcon(SPELLS.ART_OF_WAR))
         .actual(`${formatPercentage(this.consumedProcsPercent)}% proc(s) used`)
         .recommended(`Using >${formatPercentage(recommended)}% is recommended.`);
     });
@@ -88,7 +89,7 @@ class AoWProcTracker extends Analyzer {
   statistic() {
     return (
       <StatisticBox
-        icon={<SpellIcon id={SPELLS.ART_OF_WAR.id} />}
+        icon={<SpellIcon id={SPELLS.ART_OF_WAR} />}
         value={`${formatPercentage(this.consumedProcsPercent)}%`}
         label="Art of War procs used"
         tooltip={`You got ${this.totalAoWProcs} Art of War procs and used ${this.consumedAoWProcs} of them`}

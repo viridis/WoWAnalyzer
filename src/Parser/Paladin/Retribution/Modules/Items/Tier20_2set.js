@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SPELLS from 'common/SPELLS';
+import SPELLS from '../../SPELLS';
 import SpellIcon from 'common/SpellIcon';
 import SpellLink from 'common/SpellLink';
 import { formatNumber, formatPercentage } from 'common/format';
@@ -20,28 +20,28 @@ class Tier20_2set extends Analyzer {
 
   constructor(...args) {
     super(...args);
-    this.active = this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T20_2SET_BONUS.id);
+    this.active = this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T20_2SET_BONUS);
   }
 
   get percentUptime() {
     // This calculates the total possible uptime based on buff duration (eight seconds) and the cooldown of judgement based on haste
     const maxUptime = 8 * (1 + this.haste.current) / 12;
-    const actualUptime = this.selectedCombatant.getBuffUptime(SPELLS.RET_PALADIN_T20_2SET_BONUS_BUFF.id) / this.owner.fightDuration;
+    const actualUptime = this.selectedCombatant.getBuffUptime(SPELLS.RET_PALADIN_T20_2SET_BONUS_BUFF) / this.owner.fightDuration;
     // This is how much uptime you had over your actual uptime based on your haste
     return actualUptime / maxUptime;
   }
 
   on_byPlayer_damage(event) {
-    if (this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T20_2SET_BONUS_BUFF.id) && (event.ability.guid === SPELLS.BLADE_OF_JUSTICE.id)) {
+    if (this.selectedCombatant.hasBuff(SPELLS.RET_PALADIN_T20_2SET_BONUS_BUFF) && (event.ability.guid === SPELLS.BLADE_OF_JUSTICE)) {
       this.damageDone += calculateEffectiveDamage(event, RET_PALADIN_T20_2SET_MODIFIER);
     }
   }
 
   item() {
     return {
-      id: `spell-${SPELLS.RET_PALADIN_T20_2SET_BONUS.id}`,
-      icon: <SpellIcon id={SPELLS.RET_PALADIN_T20_2SET_BONUS.id} />,
-      title: <SpellLink id={SPELLS.RET_PALADIN_T20_2SET_BONUS.id} icon={false} />,
+      id: `spell-${SPELLS.RET_PALADIN_T20_2SET_BONUS}`,
+      icon: <SpellIcon id={SPELLS.RET_PALADIN_T20_2SET_BONUS} />,
+      title: <SpellLink id={SPELLS.RET_PALADIN_T20_2SET_BONUS} icon={false} />,
       result: (
         <dfn data-tip={`
           The effective damage contributed by tier 20 2 peice.<br/>

@@ -6,16 +6,8 @@ class Ability {
      * REQUIRED The spell definition. If an array of spell definitions is provided, the first element in the array will be what shows in suggestions / cast timeline. Multiple spell definitions in the same ability can be used to tie multiple cast / buff IDs together as the same ability (with a shared cooldown)
      */
     spell: PropTypes.oneOfType([
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-      }),
-      PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-      })),
+      PropTypes.number,
+      PropTypes.arrayOf(PropTypes.number),
     ]).isRequired,
     /**
      * The name to use if it is different from the name provided by the `spell` object. This should only be used in rare situations.
