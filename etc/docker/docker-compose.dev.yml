@@ -1,0 +1,22 @@
+version: '3'
+services:
+
+  server:
+    image: node:10.4-alpine
+    volumes:
+      - ../..:/usr/src/wowanalyzer:cached
+    working_dir: /usr/src/wowanalyzer
+    container_name: wowanalyzer-dev
+    ports:
+      - 3000:3000
+      - 35729:35729
+    expose:
+     - 3000
+     - 35729
+    environment:
+      # Webpack dev server has to poll because https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#npm-start-doesnt-detect-changes
+      - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
+      - VIRTUAL_HOST=wow-analyzer.docker
+      - VIRTUAL_PORT=3000
+    command: npm start
